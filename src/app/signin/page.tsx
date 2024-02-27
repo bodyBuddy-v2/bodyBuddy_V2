@@ -1,7 +1,6 @@
 "use client";
-
 import React, { useRef, useEffect, useState } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { Button } from "@mui/material";
 
 const SignIn = () => {
@@ -20,9 +19,6 @@ const SignIn = () => {
         >
           카카오로 로그인하기
         </Button>
-        <Button variant="outlined" onClick={() => signOut()}>
-          카카오 로그아웃
-        </Button>
       </div>
       <div>
         <Button
@@ -31,10 +27,10 @@ const SignIn = () => {
         >
           네이버 로그인하기
         </Button>
-        <Button variant="outlined" onClick={() => signOut()}>
-          네이버 로그아웃
-        </Button>
       </div>
+      <Button variant="outlined" onClick={() => signOut()}>
+        로그아웃
+      </Button>
     </>
   );
 };
