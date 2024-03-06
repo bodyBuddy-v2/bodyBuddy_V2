@@ -1,18 +1,29 @@
-import { Inter } from "next/font/google";
+"use client";
 import Providers from "@/components/Providers";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Container } from "@mui/material";
+import StyledLayout from "@/components/StyledLayout";
+import { global } from "@/styles/globals";
+import { Global } from "@emotion/react";
+import SEO from "@/components/SEO";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <>
+      <html lang="en">
+        <SEO />
+        <body>
+          <Global styles={global} />
+          <Providers>
+            <Container maxWidth="sm">
+              <StyledLayout>{children}</StyledLayout>
+            </Container>
+          </Providers>
+        </body>
+      </html>
+    </>
   );
 }
