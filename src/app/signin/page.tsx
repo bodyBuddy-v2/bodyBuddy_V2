@@ -73,8 +73,12 @@ const SignIn = () => {
         >
           카카오로 로그인하기
         </OAuthButton>
-        <OAuthButton name="naver" startIcon={<NaverLogo />} variant="outlined">
-          {/* onClick={() => signIn("naver", { redirect: true, callbackUrl: "/" })} */}
+        <OAuthButton
+          name="naver"
+          startIcon={<NaverLogo />}
+          variant="outlined"
+          onClick={() => signIn("naver", { redirect: true, callbackUrl: "/" })}
+        >
           네이버로 로그인하기
         </OAuthButton>
       </OAuthButtonBox>
