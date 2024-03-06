@@ -17,6 +17,9 @@ dependencies:
   '@mui/material':
     specifier: ^5.15.10
     version: 5.15.10(@emotion/react@11.11.3)(@emotion/styled@11.11.0)(@types/react@18.2.57)(react-dom@18.2.0)(react@18.2.0)
+  emotion-reset:
+    specifier: ^3.0.1
+    version: 3.0.1(@emotion/react@11.11.3)
   next:
     specifier: 14.1.0
     version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -1190,6 +1193,14 @@ packages:
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
     dev: true
+
+  /emotion-reset@3.0.1(@emotion/react@11.11.3):
+    resolution: {integrity: sha512-v6scW83qSu+wtxg7lX1s0+/2U4EAAGFxDQMkvXE10jhKtyuXCzy3/su5/MU9ZjXeNv6ZjxZH51WktrKosKUy9g==}
+    peerDependencies:
+      '@emotion/react': '>=11'
+    dependencies:
+      '@emotion/react': 11.11.3(@types/react@18.2.57)(react@18.2.0)
+    dev: false
 
   /enhanced-resolve@5.15.0:
     resolution: {integrity: sha512-LXYT42KJ7lpIKECr2mAXIaMldcNCh/7E0KBKOu4KSfkHmP+mZmSs+8V5gBAqisWBy0OO4W5Oyys0GO1Y8KtdKg==}
