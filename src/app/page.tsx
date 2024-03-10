@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div>
       바디버디홈이양
