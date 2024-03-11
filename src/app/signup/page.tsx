@@ -4,21 +4,48 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { Button, Box } from "@mui/material";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import fullLogo from "/public/assets/fullLogo.svg";
+import exercise from "/public/assets/signUp/signUpExercise.svg";
+import rightSide from "/public/assets/signUp/rightSideCircle.svg";
+import leftSide from "/public/assets/signUp/leftSideCircle.svg";
 import KakaoLogo from "@/components/svg/KakaLog";
 import NaverLogo from "@/components/svg/NaverLogo";
 
 type LoginButtonType = {
   name: string;
 };
-const BodyBuddyLogo = styled.h1`
-  padding-top: 55%;
-  text-align: center;
+
+const SignUpContainer = styled.div`
+  position: relative;
+  height: auto;
 `;
 
-const LoginGuide = styled.div`
-  color: #626262;
-  font-size: 14px;
+const Exercise = styled.div`
+  background-image: url(${exercise.src});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 400px;
+`;
+const LeftSideCircle = styled.div`
+  position: absolute;
+  width: 60px;
+  height: 316px;
+  left: 0;
+  top: 190px;
+  background-image: url(${leftSide.src});
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+const RightSideCircle = styled.div`
+  position: absolute;
+  width: 102px;
+  height: 275px;
+  right: 0;
+  top: 0;
+  background-image: url(${rightSide.src});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const OAuthButtonBox = styled(Box)`
@@ -28,6 +55,7 @@ const OAuthButtonBox = styled(Box)`
 `;
 
 const OAuthButton = styled(Button)`
+  position: relative;
   width: 100%;
   height: 50px;
   border-color: transparent;
@@ -41,36 +69,32 @@ const OAuthButton = styled(Button)`
         }
       : { color: "#FFFFFF", backgroundColor: "#4FA42B", marginTop: "10px" };
   }};
-
-  /* .MuiButton-startIcon svg {
-    position: absolute;
-    top: 15px;
-    left: 18px;
-  } */
 `;
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <>
-      <BodyBuddyLogo>
-        <Image
-          src={fullLogo}
-          alt="바디버디 로고"
-          title="바디버디"
-          width={194}
-          height={132}
-        />
-        {/* <span className="srOnly">바디버디</span> */}
-      </BodyBuddyLogo>
+      <SignUpContainer>
+        <Box
+          display="flex"
+          flexDirection="column"
+          sx={{ fontSize: 30, paddingTop: 10 }}
+        >
+          <span>쉬운 1:1</span>
+          <span style={{ color: "#858FF1" }}>트레이닝의 시작</span>
+        </Box>
+        <LeftSideCircle />
+        <Exercise />
+        <RightSideCircle />
+      </SignUpContainer>
       <OAuthButtonBox display="flex" alignItems="center" flexDirection="column">
-        <LoginGuide>SNS로 간편 로그인하세요!</LoginGuide>
         <OAuthButton
           name="Kakao"
           startIcon={<KakaoLogo />}
           variant="outlined"
           onClick={() => signIn("kakao", { redirect: true, callbackUrl: "/" })}
         >
-          카카오로 로그인하기
+          카카오로 시작하기
         </OAuthButton>
         <OAuthButton
           name="naver"
@@ -78,11 +102,11 @@ const SignIn = () => {
           variant="outlined"
           onClick={() => signIn("naver", { redirect: true, callbackUrl: "/" })}
         >
-          네이버로 로그인하기
+          네이버로 시작하기
         </OAuthButton>
       </OAuthButtonBox>
     </>
   );
 };
 
-export default SignIn;
+export default SignUp;
