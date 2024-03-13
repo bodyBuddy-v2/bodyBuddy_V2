@@ -5,9 +5,6 @@ import StyledLayout from "@/components/StyledLayout";
 import { global } from "@/styles/globals";
 import { Global } from "@emotion/react";
 import SEO from "@/components/SEO";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -15,7 +12,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-<<<<<<< HEAD
     <>
       <html lang="en">
         <SEO />
@@ -29,12 +25,5 @@ export default function RootLayout({
         </body>
       </html>
     </>
-=======
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
->>>>>>> 8cfa6bb22fdb37b8a060b460155bcc53b0c02a5a
   );
 }
