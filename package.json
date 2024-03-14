@@ -16,7 +16,7 @@
     "emotion-reset": "^3.0.1",
     "init": "^0.1.2",
     "next": "14.1.0",
-    "next-auth": "5.0.0-beta.3",
+    "next-auth": "^4.24.6",
     "react": "^18",
     "react-dom": "^18",
     "react-query": "^3.39.3",
