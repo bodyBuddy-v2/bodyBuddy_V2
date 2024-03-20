@@ -1,11 +1,16 @@
-import { Button } from "@mui/material";
+import Button from "@/components/Button/Button";
 import { auth } from "@/auth";
+import Theme from "@/components/Theme";
+import Typography from "@/components/Typography";
 
 export default async function Home() {
   return (
     <div>
-      바디버디홈이양
-      <Button variant="outlined">Outlined</Button>
+      <Typography variant="h2">바디버디홈이양</Typography>
+
+      <Button variant="outlined" color="primary" sx={{ color: "primary.main" }}>
+        Home
+      </Button>
     </div>
   );
 }
