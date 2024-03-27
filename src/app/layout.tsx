@@ -5,6 +5,8 @@ import StyledLayout from "@/components/StyledLayout";
 import { global } from "@/styles/globals";
 import { Global } from "@emotion/react";
 import SEO from "@/components/SEO";
+import { ThemeProvider } from "@mui/material/styles";
+import Theme from "@/components/Theme";
 
 export default function RootLayout({
   children,
@@ -18,9 +20,11 @@ export default function RootLayout({
         <body>
           <Global styles={global} />
           <Providers>
-            <Container maxWidth="sm">
-              <StyledLayout>{children}</StyledLayout>
-            </Container>
+            <ThemeProvider theme={Theme}>
+              <Container maxWidth="sm">
+                <StyledLayout>{children}</StyledLayout>
+              </Container>
+            </ThemeProvider>
           </Providers>
         </body>
       </html>
