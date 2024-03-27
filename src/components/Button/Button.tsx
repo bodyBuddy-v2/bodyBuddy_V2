@@ -7,7 +7,7 @@ export type ButtonType = {
 } & ButtonProps;
 
 const Button = (props: ButtonType) => {
-  const { variant = "contained", disabled = false, hello = "re", size = "medium", children, ...others } = props;
+  const { variant = "contained", disabled = false, hello, size = "medium", children, ...others } = props;
 
   return (
     <StyledButton variant={variant} disabled={disabled} size={size} {...others}>
