@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev && \"pnpm open project\"",
     "build": "next build",
     "start": "next start",
     "prepare": "husky install",
     "format": "prettier --cache --write .",
-    "lint": "next lint"
+    "lint": "next lint",
+    "open project": "open http://localhost:3000"
   },
   "dependencies": {
     "@auth/core": "0.19",
@@ -19,7 +20,7 @@
     "emotion-reset": "^3.0.1",
     "init": "^0.1.2",
     "next": "14.1.0",
-    "next-auth": "5.0.0-beta.3",
+    "next-auth": "4.24.7",
     "react": "^18",
     "react-dom": "^18",
     "recoil": "^0.7.7",
