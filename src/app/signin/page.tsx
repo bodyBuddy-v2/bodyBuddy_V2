@@ -1,6 +1,6 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import React from "react";
+import { signIn } from "next-auth/react";
 import { Button, Box } from "@mui/material";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -54,13 +54,7 @@ const SignIn = () => {
   return (
     <>
       <BodyBuddyLogo>
-        <Image
-          src={fullLogo}
-          alt="바디버디 로고"
-          title="바디버디"
-          width={194}
-          height={132}
-        />
+        <Image src={fullLogo} alt="바디버디 로고" title="바디버디" width={194} height={132} />
         {/* <span className="srOnly">바디버디</span> */}
       </BodyBuddyLogo>
       <OAuthButtonBox display="flex" alignItems="center" flexDirection="column">
