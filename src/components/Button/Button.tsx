@@ -1,5 +1,5 @@
 "use client";
-import { Button as MuiButton, styled as mStyled } from "@mui/material";
+import { Button as MuiButton } from "@mui/material";
 import styled from "@emotion/styled";
 import type { ButtonProps } from "@mui/material";
 
@@ -8,13 +8,7 @@ export type ButtonType = {
 } & ButtonProps;
 
 const Button = (props: ButtonType) => {
-  const {
-    variant = "contained",
-    disabled = false,
-    size = "medium",
-    children,
-    ...others
-  } = props;
+  const { variant = "contained", disabled = false, size = "medium", children, ...others } = props;
 
   return (
     <StyledButton variant={variant} disabled={disabled} size={size} {...others}>

@@ -7,11 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import Theme from "@/components/Theme";
 import CssBaseline from "@mui/material/CssBaseline";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <html lang="en">

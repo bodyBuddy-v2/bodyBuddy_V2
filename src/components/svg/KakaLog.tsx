@@ -4,12 +4,7 @@ import { SvgIcon } from "@mui/material";
 const KakaoLogo = () => {
   return (
     <SvgIcon viewBox="0 0 26 24">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="40"
-        height="40"
-        fill="none"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none">
         <path
           fill="#392020"
           d="M13.056.094C5.902.094.133 4.71.133 10.314c0 3.638 2.4 6.823 6 8.642l-1.218 4.551a.388.388 0 0 0 .092.397c.074.065.17.101.268.102a.388.388 0 0 0 .221-.093l5.244-3.536c.774.107 1.555.163 2.336.167 7.146 0 12.925-4.617 12.925-10.23S20.202.094 13.056.094Z"
