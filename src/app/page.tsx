@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import { auth } from "@/auth";
 
 export default async function Home() {
   return (
