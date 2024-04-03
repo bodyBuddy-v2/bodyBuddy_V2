@@ -1,6 +1,4 @@
-import React from "react";
-import { Box } from "@mui/material";
-import styled from "@emotion/styled";
+import { Box, styled } from "@mui/material";
 
 type ContainerType = {
   children: React.ReactNode;
