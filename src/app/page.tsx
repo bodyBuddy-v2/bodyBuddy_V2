@@ -1,7 +1,7 @@
 import Button from "@/components/Button/Button";
 import Typography from "@/components/Typography";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <div>
       <Typography variant="h1">h1</Typography>

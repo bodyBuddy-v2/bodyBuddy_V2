@@ -7,7 +7,7 @@ export type ButtonType = {
   /** custom으로 들어올 수 있는 아이들 */
 } & ButtonProps;
 
-const Button = (props: ButtonType) => {
+const Button: React.FC = (props: ButtonType) => {
   const { variant = "contained", disabled = false, size = "medium", children, ...others } = props;
 
   return (
@@ -19,7 +19,7 @@ const Button = (props: ButtonType) => {
 
 export default Button;
 
-const StyledButton = styled(MuiButton)(({ theme, variant }) => {
+const StyledButton = styled(MuiButton)(({ variant }) => {
   return {
     ...(variant === "contained" && {
       background: "",

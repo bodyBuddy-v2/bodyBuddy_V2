@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export default function SEO() {
+export default function SEO(): JSX.Element {
   return (
     <Head>
       <meta charSet="utf-8" />
