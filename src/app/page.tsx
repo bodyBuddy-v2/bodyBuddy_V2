@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <div>
       바디버디홈이양

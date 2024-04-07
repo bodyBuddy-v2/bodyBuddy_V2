@@ -1,7 +1,7 @@
 import React from "react";
 import { SvgIcon } from "@mui/material";
 
-const KakaoLogo = () => {
+const KakaoLogo: React.FC = () => {
   return (
     <SvgIcon viewBox="0 0 26 24">
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none">
