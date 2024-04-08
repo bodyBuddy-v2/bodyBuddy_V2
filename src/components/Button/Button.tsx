@@ -4,10 +4,10 @@ import styled from "@emotion/styled";
 import type { ButtonProps } from "@mui/material";
 
 export type ButtonType = {
-  /** custom으로 들어올 수 있는 아이들 */
+  children?: React.ReactNode;
 } & ButtonProps;
 
-const Button: React.FC = (props: ButtonType) => {
+const Button: React.FC<ButtonType> = (props: ButtonType) => {
   const { variant = "contained", disabled = false, size = "medium", children, ...others } = props;
 
   return (

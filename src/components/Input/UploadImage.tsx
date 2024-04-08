@@ -1,37 +1,38 @@
+"use client";
 import React, { useState, ChangeEvent, Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled";
 import { Alert } from "@mui/material";
-import { camera, circleClose } from "@/public/assets/common";
 import Image from "next/image";
 
 export type UploadFileType = {
   onSetImgFiles: Dispatch<SetStateAction<File[]>>;
 };
 
-export const UploadImage = (props: UploadFileType) => {
+export const UploadImage: React.FC<UploadFileType> = (props: UploadFileType) => {
   const { onSetImgFiles } = props;
 
-  const [postImg, setPostImg] = useState<File[]>([]);
+  const [_, setPostImg] = useState<File[]>([]);
   const [alterFlag, setAlterFlag] = useState<boolean>(false);
   const [previewImg, setPreviewImg] = useState<string[]>([]);
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
-    let fileArr = Array.from(event.target?.files);
+    const fileArr = Array.from(event.target?.files);
 
     if (!checkImageExtension(fileArr)) {
       setAlterFlag(true);
       return;
     }
     setPostImg(fileArr);
-    // onSetImgFiles(fileArr);
+    onSetImgFiles(fileArr);
 
-    fileArr.forEach((file) => {
-      let fileReader = new FileReader();
+    fileArr.forEach(file => {
+      const fileReader = new FileReader();
 
-      fileReader.onload = (e) => {
-        if (typeof e.target?.result === "string") {
-          setPreviewImg((images) => [...images, `${e.target?.result}`]);
+      fileReader.onload = (event: ProgressEvent<FileReader>) => {
+        const result = event.target?.result;
+        if (typeof result === "string") {
+          setPreviewImg(images => [...images, `${result}`]);
         }
       };
 
@@ -41,10 +42,8 @@ export const UploadImage = (props: UploadFileType) => {
 
   const onClickRemove = (index: number) => {
     setPostImg((files: File[]) => files.filter((_, idx) => idx !== index));
-    setPreviewImg((images: string[]) =>
-      images.filter((_, idx) => idx !== index)
-    );
-    // onSetImgFiles((files: File[]) => files.filter((_, idx) => idx !== index));
+    setPreviewImg((images: string[]) => images.filter((_, idx) => idx !== index));
+    onSetImgFiles((files: File[]) => files.filter((_, idx) => idx !== index));
   };
 
   const checkImageExtension = (files: File[]) => {
@@ -52,7 +51,7 @@ export const UploadImage = (props: UploadFileType) => {
     let flag = true;
 
     files.forEach((file: File) => {
-      let type = file.type.split("/")[1];
+      const type = file.type.split("/")[1];
       if (!imageExtensions.includes(type)) {
         flag = false;
       }
@@ -67,20 +66,12 @@ export const UploadImage = (props: UploadFileType) => {
         {previewImg &&
           previewImg.map((preview, idx) => (
             <div key={`upload-${idx}`} className={"upload-img"}>
-              <Image
-                src={preview}
-                alt={`upload-${idx}`}
-                width={92}
-                height={64}
-              />
-              <button
-                className="remove-img-btn"
-                onClick={() => onClickRemove(idx)}
-              />
+              <Image src={preview} alt={`upload-${idx}`} width={92} height={64} />
+              <button className="remove-img-btn" onClick={() => onClickRemove(idx)} />
             </div>
           ))}
-        <label htmlFor="inputFile" onChange={onChangeInput}>
-          <input id="inputFile" type="file" accept="image/*" multiple />
+        <label htmlFor="inputFile">
+          <input id="inputFile" type="file" accept="image/*" multiple onChange={onChangeInput} />
         </label>
         {alterFlag && (
           <Alert
@@ -106,7 +97,7 @@ const UploadFileContainer = styled.div`
     display: inline-block;
     width: 92px;
     height: 64px;
-    background: url(${camera.src}) no-repeat;
+    background: url("/assets/common/camera.svg") no-repeat;
     background-position: center;
     border: 1px solid #b9b9b9;
     cursor: pointer;
@@ -131,8 +122,10 @@ const UploadFileContainer = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: url(${circleClose.src}) no-repeat;
+    border-color: transparent;
+    background: url("/assets/common/circleClose.svg") no-repeat;
     background-position: center;
+    background-size: cover;
   }
 `;
 
