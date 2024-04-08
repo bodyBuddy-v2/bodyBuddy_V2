@@ -1,5 +1,7 @@
+"use client";
 import Button from "@/components/Button/Button";
 import Typography from "@/components/Typography";
+import React from "react";
 
 const Home: React.FC = () => {
   return (
