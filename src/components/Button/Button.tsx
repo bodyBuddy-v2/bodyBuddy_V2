@@ -1,9 +1,10 @@
-import { Button as MuiButton, styled } from "@mui/material";
-
+"use client";
+import { Button as MuiButton } from "@mui/material";
+import styled from "@emotion/styled";
 import type { ButtonProps } from "@mui/material";
 
 export type ButtonType = {
-  /** custom으로 들어올 수 있는 아이들 */
+  children?: React.ReactNode;
 } & ButtonProps;
 
 const Button = (props: ButtonType) => {
@@ -18,7 +19,7 @@ const Button = (props: ButtonType) => {
 
 export default Button;
 
-const StyledButton = styled(MuiButton)(({ theme, variant }) => {
+const StyledButton = styled(MuiButton)(({ variant }) => {
   return {
     ...(variant === "contained" && {
       background: "",

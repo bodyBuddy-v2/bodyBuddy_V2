@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import { Button, Box } from "@mui/material";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import fullLogo from "/public/assets/fullLogo.svg";
 import KakaoLogo from "@/components/svg/KakaLog";
 import NaverLogo from "@/components/svg/NaverLogo";
 
@@ -51,28 +50,29 @@ const OAuthButton = styled(Button)`
 `;
 
 const SignIn = () => {
+  const handleSubmit = (name: string) => {
+    signIn(name, {
+      redirect: true,
+      callbackUrl: "/",
+    })
+      .then(result => {
+        if (!result) throw new Error("Sign in failed");
+      })
+      .catch(() => {});
+  };
+
   return (
     <>
       <BodyBuddyLogo>
-        <Image src={fullLogo} alt="바디버디 로고" title="바디버디" width={194} height={132} />
-        {/* <span className="srOnly">바디버디</span> */}
+        <Image src="/assets/fullLogo.svg" alt="바디버디 로고" title="바디버디" width={194} height={132} />
+        <span className="srOnly">바디버디</span>
       </BodyBuddyLogo>
       <OAuthButtonBox display="flex" alignItems="center" flexDirection="column">
         <LoginGuide>SNS로 간편 로그인하세요!</LoginGuide>
-        <OAuthButton
-          name="Kakao"
-          startIcon={<KakaoLogo />}
-          variant="outlined"
-          onClick={() => signIn("kakao", { redirect: true, callbackUrl: "/" })}
-        >
+        <OAuthButton name="Kakao" startIcon={<KakaoLogo />} variant="outlined" onClick={() => handleSubmit("kakao")}>
           카카오로 로그인하기
         </OAuthButton>
-        <OAuthButton
-          name="naver"
-          startIcon={<NaverLogo />}
-          variant="outlined"
-          onClick={() => signIn("naver", { redirect: true, callbackUrl: "/" })}
-        >
+        <OAuthButton name="naver" startIcon={<NaverLogo />} variant="outlined" onClick={() => handleSubmit("naver")}>
           네이버로 로그인하기
         </OAuthButton>
       </OAuthButtonBox>
