@@ -8,7 +8,7 @@ export type UploadFileType = {
   onSetImgFiles: Dispatch<SetStateAction<File[]>>;
 };
 
-export const UploadImage: React.FC<UploadFileType> = (props: UploadFileType) => {
+export const UploadImage = (props: UploadFileType) => {
   const { onSetImgFiles } = props;
 
   const [_, setPostImg] = useState<File[]>([]);

@@ -17,7 +17,7 @@
     "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/no-unused-vars": "off", //위에서 error 처리해주고 있음
     "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     /* next-Auth 확인*/
     // "@typescript-eslint/no-misused-promises": "off",
     // "@typescript-eslint/no-unsafe-assignment": "off",

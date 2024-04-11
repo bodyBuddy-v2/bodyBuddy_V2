@@ -7,7 +7,7 @@ export type TypographyType = {
   fontWeight?: number;
 } & TypographyProps;
 
-const Typography: React.FC<TypographyType> = (props: TypographyProps) => {
+const Typography = (props: TypographyProps) => {
   const { children, ...others } = props;
 
   return <StyledTypography {...others}>{children}</StyledTypography>;

@@ -8,7 +8,7 @@ export type InputType = {
   /** custom으로 들어올 수 있는 아이들 */
 } & InputProps;
 
-const Input: React.FC<InputType> = (props: InputType) => {
+const Input = (props: InputType) => {
   const { disableUnderline = true, ...others } = props;
 
   return <StyledInput disableUnderline={disableUnderline} {...others}></StyledInput>;

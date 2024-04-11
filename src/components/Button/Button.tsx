@@ -7,7 +7,7 @@ export type ButtonType = {
   children?: React.ReactNode;
 } & ButtonProps;
 
-const Button: React.FC<ButtonType> = (props: ButtonType) => {
+const Button = (props: ButtonType) => {
   const { variant = "contained", disabled = false, size = "medium", children, ...others } = props;
 
   return (

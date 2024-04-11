@@ -49,7 +49,7 @@ const OAuthButton = styled(Button)`
   } */
 `;
 
-const SignIn: React.FC = () => {
+const SignIn = () => {
   const handleSubmit = (name: string) => {
     signIn(name, {
       redirect: true,
