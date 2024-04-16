@@ -1,9 +1,15 @@
 "use client";
 import Button from "@/components/Button/Button";
 import Typography from "@/components/Typography";
-import React from "react";
+import React, { useState } from "react";
+import Select from "@/components/Select";
+import city from "@/data/city";
+import district from "@/data/district";
 
 const Home: React.FC = () => {
+  const [selectCity, setSelectCity] = useState<string>("");
+  const [selectDistrict, setSelectDistrict] = useState<string>("");
+
   return (
     <div>
       <Typography variant="h1">h1</Typography>
@@ -23,6 +29,24 @@ const Home: React.FC = () => {
       <Button variant="outlined" color="info">
         info
       </Button>
+      <Select
+        currentSelectedData={selectCity}
+        items={city}
+        label="지역"
+        placeholder="지역"
+        width={140}
+        onSetCurrentSelected={setSelectCity}
+      ></Select>
+      <Select
+        items={district[selectCity]}
+        currentSelectedData={selectDistrict}
+        placeholder="시/군/구"
+        label="구"
+        width={150}
+        onSetCurrentSelected={setSelectDistrict}
+      ></Select>
+      {selectCity}
+      {selectDistrict}
     </div>
   );
 };
