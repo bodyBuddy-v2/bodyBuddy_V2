@@ -1,13 +1,12 @@
 "use client";
-import { Button as MuiButton } from "@mui/material";
+import { ButtonProps, Button as MuiButton } from "@mui/material";
 import styled from "@emotion/styled";
-import type { ButtonProps } from "@mui/material";
 
-export type ButtonType = {
+export interface ButtonType extends ButtonProps {
   children?: React.ReactNode;
-} & ButtonProps;
+}
 
-const Button: React.FC<ButtonType> = (props: ButtonType) => {
+const Button = (props: ButtonType) => {
   const { variant = "contained", disabled = false, size = "medium", children, ...others } = props;
 
   return (

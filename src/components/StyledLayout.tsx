@@ -11,7 +11,7 @@ const BoxSection = styled(Box)`
   padding: 16px;
 `;
 
-const StyledLayout: React.FC<ContainerType> = ({ children }: ContainerType) => {
+const StyledLayout = ({ children }: ContainerType) => {
   return (
     <>
       <BoxSection display="flex" flexDirection="column">
