@@ -3,12 +3,29 @@ import Button from "@/components/Button/Button";
 import Typography from "@/components/Typography";
 import React, { useState } from "react";
 import Select from "@/components/Select";
+import MultiSelect from "@/components/MultiSelect";
 import city from "@/data/city";
 import district from "@/data/district";
 
+const muitiItems: string[] = ["필라테스", "PT", "테니스"];
+
 const Home: React.FC = () => {
+  const [selectPlays, setSelectPlay] = useState<string[]>([]);
   const [selectCity, setSelectCity] = useState<string>("");
   const [selectDistrict, setSelectDistrict] = useState<string>("");
+
+  const handleCityChange = (city: string) => {
+    setSelectCity(city);
+    setSelectDistrict(district[city][0]);
+  };
+
+  const handleDistrict = (district: string) => {
+    setSelectDistrict(district);
+  };
+
+  const handlePlays = (plays: string[]) => {
+    setSelectPlay(plays);
+  };
 
   return (
     <div>
@@ -32,21 +49,19 @@ const Home: React.FC = () => {
       <Select
         currentSelectedData={selectCity}
         items={city}
-        label="지역"
         placeholder="지역"
         width={140}
-        onSetCurrentSelected={setSelectCity}
+        onChangeValue={handleCityChange}
       ></Select>
+
       <Select
-        items={district[selectCity]}
         currentSelectedData={selectDistrict}
+        items={district[selectCity]}
         placeholder="시/군/구"
-        label="구"
-        width={150}
-        onSetCurrentSelected={setSelectDistrict}
+        width={140}
+        onChangeValue={handleDistrict}
       ></Select>
-      {selectCity}
-      {selectDistrict}
+      <MultiSelect items={muitiItems} placeholder="운동을 선택해봐" onChange={handlePlays} />
     </div>
   );
 };

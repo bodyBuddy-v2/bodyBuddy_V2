@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Select as MuiSelect, SelectChangeEvent } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
@@ -10,30 +10,38 @@ export type StyleSelectType = {
   width?: number;
 };
 
-interface ISelect extends StyleSelectType, SelectProps {
+interface IMultiSelect extends StyleSelectType, SelectProps {
   items: Array<string>;
   placeholder?: string;
-  currentSelectedData?: string;
-  onChangeValue: (value: string) => void;
+  label?: string;
+  currentSelectedData?: string[];
+  onChange: (values: string[]) => void;
 }
 
-const Select = (props: ISelect) => {
-  const { items, placeholder, height, width, currentSelectedData, onChangeValue, ...others } = props;
-  const [selected, setSelected] = useState(currentSelectedData);
+const MultiSelect = (props: IMultiSelect) => {
+  const { items, placeholder, height, width, currentSelectedData, onChange, ...others } = props;
+  const [selected, setSelected] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent) => {
-    const newValue: string = event.target.value;
+    const {
+      target: { value },
+    } = event;
+
+    const newValue: string[] = typeof value === "string" ? value.split(",") : value;
     setSelected(newValue);
-    onChangeValue(newValue);
+    onChange(newValue);
   };
 
   useEffect(() => {
-    setSelected(currentSelectedData);
+    if (currentSelectedData?.length) {
+      setSelected(currentSelectedData);
+    }
   }, [currentSelectedData]);
 
   return (
     <>
       <StyledSelect
+        multiple
         value={selected}
         onChange={handleChange}
         displayEmpty
@@ -42,7 +50,7 @@ const Select = (props: ISelect) => {
             return <em>{placeholder ? placeholder : "None"}</em>;
           }
 
-          return selected;
+          return selected.join(",");
         }}
         width={width}
         height={height}
@@ -58,7 +66,7 @@ const Select = (props: ISelect) => {
   );
 };
 
-export default Select;
+export default MultiSelect;
 
 const StyledSelect = styled(MuiSelect)<StyleSelectType>`
   border: 1px solid #cdcdcd;
