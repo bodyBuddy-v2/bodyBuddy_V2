@@ -13,13 +13,12 @@ export type StyleSelectType = {
 interface IMultiSelect extends StyleSelectType, SelectProps {
   items: Array<string>;
   placeholder?: string;
-  label?: string;
   currentSelectedData?: string[];
-  onChange: (values: string[]) => void;
+  onChangeValue: (values: string[]) => void;
 }
 
 const MultiSelect = (props: IMultiSelect) => {
-  const { items, placeholder, height, width, currentSelectedData, onChange, ...others } = props;
+  const { items, placeholder, height, width, currentSelectedData, onChangeValue, ...others } = props;
   const [selected, setSelected] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -29,7 +28,7 @@ const MultiSelect = (props: IMultiSelect) => {
 
     const newValue: string[] = typeof value === "string" ? value.split(",") : value;
     setSelected(newValue);
-    onChange(newValue);
+    onChangeValue(newValue);
   };
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const MultiSelect = (props: IMultiSelect) => {
         onChange={handleChange}
         displayEmpty
         renderValue={() => {
-          if (!selected) {
+          if (!selected.length) {
             return <em>{placeholder ? placeholder : "None"}</em>;
           }
 
@@ -72,7 +71,7 @@ const StyledSelect = styled(MuiSelect)<StyleSelectType>`
   border: 1px solid #cdcdcd;
   border-radius: 10px;
   padding-left: 10px;
-  min-width: ${({ width }) => width || "200px"};
-  min-height: ${({ height }) => height || "30px"};
+  min-width: ${({ width }) => `${width}px` || "200px"};
+  min-height: ${({ height }) => `${height}px` || "30px"};
   box-sizing: content-box;
 `;

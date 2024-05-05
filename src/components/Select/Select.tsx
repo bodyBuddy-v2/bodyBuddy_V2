@@ -14,7 +14,7 @@ interface ISelect extends StyleSelectType, SelectProps {
   items: Array<string>;
   placeholder?: string;
   currentSelectedData?: string;
-  onChangeValue?: (value: string) => void;
+  onChangeValue: (value: string) => void;
 }
 
 const Select = (props: ISelect) => {
