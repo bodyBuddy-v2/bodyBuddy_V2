@@ -1,25 +1,20 @@
 "use client";
-import { useState, useEffect } from "react";
 import { Select as MuiSelect, SelectChangeEvent } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
 import type { SelectProps } from "@mui/material";
 
-export type StyleSelectType = {
-  height?: number;
-  width?: number;
-};
-
-interface IMultiSelect extends StyleSelectType, SelectProps {
+export interface ISelect extends SelectProps {
   items: Array<string>;
   placeholder?: string;
   currentSelectedData?: string[];
+  height?: number;
+  width?: number;
   onChangeValue: (values: string[]) => void;
 }
 
-const MultiSelect = (props: IMultiSelect) => {
-  const { items, placeholder, height, width, currentSelectedData, onChangeValue, ...others } = props;
-  const [selected, setSelected] = useState<string[]>([]);
+const MultiSelect = (props: ISelect) => {
+  const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     const {
@@ -27,35 +22,29 @@ const MultiSelect = (props: IMultiSelect) => {
     } = event;
 
     const newValue: string[] = typeof value === "string" ? value.split(",") : value;
-    setSelected(newValue);
+
     onChangeValue(newValue);
   };
-
-  useEffect(() => {
-    if (currentSelectedData?.length) {
-      setSelected(currentSelectedData);
-    }
-  }, [currentSelectedData]);
 
   return (
     <>
       <StyledSelect
         multiple
-        value={selected}
+        value={currentSelectedData}
         onChange={handleChange}
         displayEmpty
         renderValue={() => {
-          if (!selected.length) {
-            return <em>{placeholder ? placeholder : "None"}</em>;
+          if (!currentSelectedData?.length) {
+            return <em>{placeholder}</em>;
           }
 
-          return selected.join(",");
+          return currentSelectedData.join(",");
         }}
         width={width}
         height={height}
         {...others}
       >
-        {items?.map((item: string, idx: number) => (
+        {items.map((item: string, idx: number) => (
           <MenuItem value={item} key={`${item}-${idx}`}>
             {item}
           </MenuItem>
@@ -67,7 +56,7 @@ const MultiSelect = (props: IMultiSelect) => {
 
 export default MultiSelect;
 
-const StyledSelect = styled(MuiSelect)<StyleSelectType>`
+const StyledSelect = styled(MuiSelect)<Pick<ISelect, "width" | "height">>`
   border: 1px solid #cdcdcd;
   border-radius: 10px;
   padding-left: 10px;

@@ -1,48 +1,38 @@
 "use client";
-import { useEffect, useState } from "react";
 import { Select as MuiSelect, SelectChangeEvent } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
 import type { SelectProps } from "@mui/material";
 
-export type StyleSelectType = {
-  height?: number;
-  width?: number;
-};
-
-interface ISelect extends StyleSelectType, SelectProps {
+interface ISelect extends SelectProps {
   items: Array<string>;
   placeholder?: string;
   currentSelectedData?: string;
+  width?: number;
+  height?: number;
   onChangeValue: (value: string) => void;
 }
 
 const Select = (props: ISelect) => {
-  const { items, placeholder, height, width, currentSelectedData, onChangeValue, ...others } = props;
-  const [selected, setSelected] = useState(currentSelectedData);
+  const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
   const handleChange = (event: SelectChangeEvent) => {
     const newValue: string = event.target.value;
-    setSelected(newValue);
     onChangeValue(newValue);
   };
-
-  useEffect(() => {
-    setSelected(currentSelectedData);
-  }, [currentSelectedData]);
 
   return (
     <>
       <StyledSelect
-        value={selected}
+        value={currentSelectedData}
         onChange={handleChange}
         displayEmpty
         renderValue={() => {
-          if (!selected) {
-            return <em>{placeholder ? placeholder : "None"}</em>;
+          if (!currentSelectedData) {
+            return <em>{placeholder}</em>;
           }
 
-          return selected;
+          return currentSelectedData;
         }}
         width={width}
         height={height}
@@ -60,7 +50,7 @@ const Select = (props: ISelect) => {
 
 export default Select;
 
-const StyledSelect = styled(MuiSelect)<StyleSelectType>`
+const StyledSelect = styled(MuiSelect)<Pick<ISelect, "width" | "height">>`
   border: 1px solid #cdcdcd;
   border-radius: 10px;
   padding-left: 10px;
