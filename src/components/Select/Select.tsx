@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import type { SelectProps } from "@mui/material";
 
 interface ISelect extends SelectProps {
-  items: Array<string>;
+  items: string[];
   placeholder?: string;
   currentSelectedData?: string;
   width?: number;
@@ -16,8 +16,8 @@ interface ISelect extends SelectProps {
 const Select = (props: ISelect) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
-  const handleChange = (event: SelectChangeEvent) => {
-    const newValue: string = event.target.value;
+  const handleChange = (event: SelectChangeEvent<unknown>) => {
+    const newValue: string = event.target.value as string;
     onChangeValue(newValue);
   };
 
