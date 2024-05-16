@@ -21,7 +21,7 @@ export default Button;
 const StyledButton = styled(MuiButton)(({ variant }) => {
   return {
     ...(variant === "contained" && {
-      background: "",
+      color: "#fff",
     }),
     ...(variant === "outlined" && {}),
   };
