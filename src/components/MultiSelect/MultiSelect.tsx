@@ -16,12 +16,12 @@ export interface ISelect extends SelectProps {
 const MultiSelect = (props: ISelect) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent<unknown>) => {
     const {
       target: { value },
     } = event;
 
-    const newValue: string[] = typeof value === "string" ? value.split(",") : value;
+    const newValue: string[] = typeof value === "string" ? value.split(",") : (value as string[]);
 
     onChangeValue(newValue);
   };
