@@ -1,30 +1,30 @@
 "use client";
-import React, { useState, ChangeEvent, Dispatch, SetStateAction } from "react";
+import React, { useState, ChangeEvent } from "react";
 import styled from "@emotion/styled";
 import { Alert } from "@mui/material";
 import Image from "next/image";
 
 export type UploadFileType = {
-  onSetImgFiles: Dispatch<SetStateAction<File[]>>;
+  images: File[];
+  onChangeValue: (values: File[]) => void;
 };
 
 export const UploadImage = (props: UploadFileType) => {
-  const { onSetImgFiles } = props;
+  const { images, onChangeValue } = props;
 
-  const [_, setPostImg] = useState<File[]>([]);
   const [alterFlag, setAlterFlag] = useState<boolean>(false);
   const [previewImg, setPreviewImg] = useState<string[]>([]);
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
+
     const fileArr = Array.from(event.target?.files);
 
     if (!checkImageExtension(fileArr)) {
       setAlterFlag(true);
       return;
     }
-    setPostImg(fileArr);
-    onSetImgFiles(fileArr);
+    onChangeValue(fileArr);
 
     fileArr.forEach(file => {
       const fileReader = new FileReader();
@@ -41,9 +41,8 @@ export const UploadImage = (props: UploadFileType) => {
   };
 
   const onClickRemove = (index: number) => {
-    setPostImg((files: File[]) => files.filter((_, idx) => idx !== index));
     setPreviewImg((images: string[]) => images.filter((_, idx) => idx !== index));
-    onSetImgFiles((files: File[]) => files.filter((_, idx) => idx !== index));
+    onChangeValue(images.filter((_, idx) => idx !== index));
   };
 
   const checkImageExtension = (files: File[]) => {
@@ -63,13 +62,12 @@ export const UploadImage = (props: UploadFileType) => {
   return (
     <>
       <UploadFileContainer>
-        {previewImg &&
-          previewImg.map((preview, idx) => (
-            <div key={`upload-${idx}`} className={"upload-img"}>
-              <Image src={preview} alt={`upload-${idx}`} width={92} height={64} />
-              <button className="remove-img-btn" onClick={() => onClickRemove(idx)} />
-            </div>
-          ))}
+        {previewImg.map((preview, idx) => (
+          <div key={`upload-${idx}`} className={"upload-img"}>
+            <Image src={preview} alt={`upload-${idx}`} width={92} height={64} />
+            <button className="remove-img-btn" onClick={() => onClickRemove(idx)} />
+          </div>
+        ))}
         <label htmlFor="inputFile">
           <input id="inputFile" type="file" accept="image/*" multiple onChange={onChangeInput} />
         </label>
@@ -126,6 +124,7 @@ const UploadFileContainer = styled.div`
     background: url("/assets/common/circleClose.svg") no-repeat;
     background-position: center;
     background-size: cover;
+    cursor: pointer;
   }
 `;
 
