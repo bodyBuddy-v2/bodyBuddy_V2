@@ -10,10 +10,12 @@ const config: StorybookConfig = {
   ],
   framework: {
     name: "@storybook/nextjs",
+
     options: {},
   },
   docs: {
     autodocs: "tag",
   },
+  staticDirs: [{ from: "../public/assets", to: "/assets/" }],
 };
 export default config;
