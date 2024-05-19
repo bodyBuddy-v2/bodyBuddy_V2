@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { Box, FormControl } from "@mui/material";
 import { Select, Input, Typography, Button } from "@/components";
+
 import city from "@/constant/common/city";
 import district from "@/constant/common/district";
 
@@ -23,14 +24,16 @@ const SignMember = () => {
     <>
       <Box height="100%" display={"flex"} flexDirection={"column"} mt={4}>
         <Box display={"flex"} flexDirection={"column"} fontSize={30} fontWeight={700}>
-          <Typography variant="h3">가장 쉬운</Typography>
-          <Typography variant="h3">트레이닝 시작해볼까요?</Typography>
+          <Typography variant="h3">
+            <Typography variant="body1" sx={{ fontSize: "44px", fontWeight: "bold" }}>
+              가장 쉬운
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "44px", fontWeight: "bold" }}>
+              트레이닝 시작해볼까요?
+            </Typography>
+          </Typography>
         </Box>
         <Box display={"flex"} flexDirection={"column"} mt={8}>
-          {/* <Typography> 
-<span style={{display:block}}>가장 쉬운</span>
-<span>트레이닝을
-</Typography> */}
           <Typography variant="h4" color="primary">
             STEP 1
           </Typography>
