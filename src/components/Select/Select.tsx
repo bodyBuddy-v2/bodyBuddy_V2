@@ -10,15 +10,20 @@ interface ISelect extends SelectProps {
   currentSelectedData: string;
   width?: number;
   height?: number;
-  onChangeValue: (value: string) => void;
+  onChangeValue: (value: string[]) => void;
 }
 
 const Select = (props: ISelect) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
-  const handleChange = (e: SelectChangeEvent<unknown>) => {
-    const newValue = e.target.value;
-    onChangeValue(newValue as string);
+  const handleChange = (event: SelectChangeEvent<unknown>) => {
+    const {
+      target: { value },
+    } = event;
+
+    const newValue: string[] = typeof value === "string" ? value.split(",") : (value as string[]);
+
+    onChangeValue(newValue);
   };
 
   return (
