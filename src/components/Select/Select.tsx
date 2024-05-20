@@ -1,13 +1,13 @@
 "use client";
-import { Select as MuiSelect, SelectChangeEvent } from "@mui/material";
+
+import { Select as MuiSelect, styled } from "@mui/material";
 import { MenuItem } from "@mui/material";
-import styled from "@emotion/styled";
-import type { SelectProps } from "@mui/material";
+import type { SelectChangeEvent, SelectProps } from "@mui/material";
 
 interface ISelect extends SelectProps {
   items: Array<string>;
   placeholder?: string;
-  currentSelectedData?: string;
+  currentSelectedData: string;
   width?: number;
   height?: number;
   onChangeValue: (value: string) => void;
@@ -16,9 +16,9 @@ interface ISelect extends SelectProps {
 const Select = (props: ISelect) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
-  const handleChange = (event: SelectChangeEvent) => {
-    const newValue: string = event.target.value;
-    onChangeValue(newValue);
+  const handleChange = (e: SelectChangeEvent<unknown>) => {
+    const newValue = e.target.value;
+    onChangeValue(newValue as string);
   };
 
   return (
@@ -38,7 +38,7 @@ const Select = (props: ISelect) => {
         height={height}
         {...others}
       >
-        {items?.map((item: string, idx: number) => (
+        {items.map((item: string, idx: number) => (
           <MenuItem value={item} key={`${item}-${idx}`}>
             {item}
           </MenuItem>
@@ -50,11 +50,11 @@ const Select = (props: ISelect) => {
 
 export default Select;
 
-const StyledSelect = styled(MuiSelect)<Pick<ISelect, "width" | "height">>`
-  border: 1px solid #cdcdcd;
-  border-radius: 10px;
-  padding-left: 10px;
-  min-width: ${({ width }) => `${width}px` || "200px"};
-  min-height: ${({ height }) => `${height}px` || "30px"};
-  box-sizing: content-box;
-`;
+const StyledSelect = styled(MuiSelect)<Pick<ISelect, "width" | "height">>(({ width, height }) => ({
+  border: "1px solid #cdcdcd",
+  borderRadius: "10px",
+  paddingLeft: "10px",
+  minWidth: width ? `${width}px` : "200px",
+  minHeight: height ? `${height}px` : "30px",
+  boxSizing: "content-box",
+}));
