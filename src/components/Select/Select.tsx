@@ -5,7 +5,7 @@ import { MenuItem } from "@mui/material";
 import type { SelectChangeEvent, SelectProps } from "@mui/material";
 
 interface ISelect extends SelectProps {
-  items: Array<string>;
+  items: string[];
   placeholder?: string;
   currentSelectedData: string;
   width?: number;
