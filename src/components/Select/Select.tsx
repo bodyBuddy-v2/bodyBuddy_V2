@@ -6,7 +6,6 @@ import type { SelectChangeEvent, SelectProps } from "@mui/material";
 
 interface ISelect extends SelectProps {
   items: string[];
-  placeholder?: string;
   currentSelectedData: string;
   width?: number;
   height?: number;
