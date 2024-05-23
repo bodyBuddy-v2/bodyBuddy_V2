@@ -17,7 +17,7 @@ export default Typography;
 
 const StyledTypography = styled(MuiTypography)(({ variant }) => {
   return {
-    ...(variant === "h1" && { fontSize: "88px" }),
+    ...(variant === "h1" && { fontSize: "66px" }),
     ...(variant === "h2" && { fontSize: "54px" }),
     ...(variant === "h3" && { fontSize: "42px" }),
     ...(variant === "h4" && { fontSize: "28px" }),
