@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, ChangeEvent } from "react";
 import { styled } from "@mui/material/styles";
 import { Alert } from "@mui/material";

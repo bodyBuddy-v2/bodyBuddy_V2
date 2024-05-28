@@ -42,7 +42,7 @@ const Select = (props: ISelect) => {
         height={height}
         {...others}
       >
-        {items.map((item: string, idx: number) => (
+        {items?.map((item: string, idx: number) => (
           <MenuItem value={item} key={`${item}-${idx}`}>
             {item}
           </MenuItem>
