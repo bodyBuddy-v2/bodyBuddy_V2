@@ -2,10 +2,8 @@
 import React from "react";
 import { signIn } from "next-auth/react";
 import { Box } from "@mui/material";
-import { Button, Typography } from "@/components";
+import { Button, Typography, KakaoLogo, NaverLogo } from "@/components";
 import Image from "next/image";
-import KakaoLogo from "@/components/svg/KakaLog";
-import NaverLogo from "@/components/svg/NaverLogo";
 
 const SignIn = () => {
   const handleSubmit = (name: string) => {

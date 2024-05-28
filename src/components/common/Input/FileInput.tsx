@@ -16,7 +16,7 @@ export type fileInputType = {
   multiple?: boolean;
   height?: number | string;
   width?: number | string;
-  checkValidation?: (values: ImageFile[]) => boolean;
+  validation?: string[];
   onChangeValue: (values: ImageFile[]) => void;
 };
 
@@ -27,11 +27,23 @@ export const FileInput = (props: fileInputType) => {
     disabled = false,
     height = "64px",
     width = "92px",
+    validation,
     onChangeValue,
-    checkValidation,
   } = props;
   const [alterFlag, setAlterFlag] = useState<boolean>(false);
 
+  const checkImageExtension = (validate: string[]) => {
+    let flag = true;
+
+    value.forEach((file: ImageFile) => {
+      const type = file.type.split("/")[1];
+      if (!validate.includes(type)) {
+        flag = false;
+      }
+    });
+
+    return flag ? true : false;
+  };
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
@@ -63,7 +75,7 @@ export const FileInput = (props: fileInputType) => {
       fileReader.readAsDataURL(file);
     });
 
-    if (checkValidation && !checkValidation(fileArr)) {
+    if (validation && !checkImageExtension(validation)) {
       setAlterFlag(true);
       return;
     }

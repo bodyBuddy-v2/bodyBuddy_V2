@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import Select from "./Select";
-import city from "../../constant/common/city";
-import district from "../../constant/common/district";
+import city from "../../../constant/common/city";
+import district from "../../../constant/common/district";
 
 const meta: Meta<typeof Select> = {
   component: Select,
