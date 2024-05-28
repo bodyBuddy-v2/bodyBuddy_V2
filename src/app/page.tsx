@@ -1,30 +1,8 @@
-"use client";
 import Button from "@/components/common/Button/Button";
 import Typography from "@/components/common/Typography";
-import React, { useState } from "react";
-import styled from "@emotion/styled";
-import FileInput from "@/components/common/Input/FileInput";
-import type { ImageFile } from "@/components/common/Input/FileInput";
-import ImageList from "@/components/common/Input/ImageList";
+import React from "react";
 
 const Home = () => {
-  const [imageFiles, setImageFiles] = useState<ImageFile[]>([]);
-  const [previewImg, setPreviewImg] = useState<string[]>([]);
-
-  const handleFileChange = (selectedFiles: ImageFile[] | null) => {
-    if (!selectedFiles || selectedFiles.length <= 0) return;
-
-    const previews: string[] = selectedFiles.map(({ url }) => `${url}`);
-
-    setImageFiles(selectedFiles);
-    setPreviewImg(previews);
-  };
-
-  const handlePreviewChange = (index: number) => {
-    setPreviewImg((images: string[]) => images.filter((_, idx) => idx !== index));
-    setImageFiles((images: ImageFile[]) => images.filter((_, idx) => idx !== index));
-  };
-
   return (
     <div>
       <Typography variant="h1">h1</Typography>
@@ -44,16 +22,7 @@ const Home = () => {
       <Button variant="outlined" color="info">
         info
       </Button>
-
-      <UploadFileContainer>
-        <ImageList images={previewImg} onChangeValue={handlePreviewChange}></ImageList>
-        <FileInput value={imageFiles} multiple onChangeValue={handleFileChange}></FileInput>
-      </UploadFileContainer>
     </div>
   );
 };
-const UploadFileContainer = styled.div`
-  padding: 16px;
-  display: flex;
-`;
 export default Home;
