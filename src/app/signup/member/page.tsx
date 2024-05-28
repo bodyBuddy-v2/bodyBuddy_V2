@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import styled from "@emotion/styled";
+import { styled } from "@mui/material/styles";
 import { Box, FormControl } from "@mui/material";
 import { Select, Input, Typography, Button } from "@/components";
 
@@ -39,16 +39,16 @@ const SignMember = () => {
           </Typography>
           <Typography variant="subtitle1">{`간단한 기본 정보를 입력해주세요 :)`}</Typography>
         </Box>
-        <SignMemberFormBox>
+        <Box mb="auto">
           <FormControl fullWidth>
-            <div className="input-item">
-              <label id="nickname-label" className="label">
+            <InputItem>
+              <label id="nickname-label" style={{ color: "#464646" }}>
                 닉네임
               </label>
               <Input placeholder="특수 문자 제외 5자 이내" />
-            </div>
-            <div className="input-item">
-              <label id="nickname-label" className="label">
+            </InputItem>
+            <InputItem>
+              <label id="nickname-label" style={{ color: "P#464646" }}>
                 관심 지역
               </label>
               <Box display={"flex"} justifyContent={"space-between"} mt={2}>
@@ -69,9 +69,9 @@ const SignMember = () => {
                   onChangeValue={handleDistrict}
                 ></Select>
               </Box>
-            </div>
+            </InputItem>
           </FormControl>
-        </SignMemberFormBox>
+        </Box>
         <Button variant="contained" fullWidth sx={{ height: "77px" }}>
           회원가입
         </Button>
@@ -80,18 +80,9 @@ const SignMember = () => {
   );
 };
 
-const SignMemberFormBox = styled(Box)`
-  margin-bottom: auto;
-
-  .label {
-    color: #464646;
-  }
-
-  .input-item {
-    display: flex;
-    flex-direction: column;
-    margin-top: 18px;
-  }
-`;
-
+export const InputItem = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  marginTop: "18px",
+});
 export default SignMember;

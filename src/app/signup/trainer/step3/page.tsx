@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Box, FormControl } from "@mui/material";
-import styled from "@emotion/styled";
 import Link from "next/link";
+import { InputItem } from "../../member/page";
 import { Input, Typography, Button, Select, UploadImage } from "@/components";
 
 const SignTrainerStep3 = () => {
@@ -27,16 +27,16 @@ const SignTrainerStep3 = () => {
           </Typography>
           <Typography variant="subtitle1">{`트레이너님의 경력을 알 수 있는 자격증을 업로드해주세요 :)`}</Typography>
         </Box>
-        <SignMemberFormBox>
+        <Box mb="auto">
           <FormControl fullWidth>
-            <div className="input-item">
-              <label id="nickname-label" className="label">
+            <InputItem>
+              <label id="nickname-label" style={{ color: "#464646" }}>
                 1:1 트레이닝 비용
               </label>
               <Input placeholder="특수 문자 제외 작성" />
-            </div>
-            <div className="input-item">
-              <label id="nickname-label" className="label">
+            </InputItem>
+            <InputItem>
+              <label id="nickname-label" style={{ color: "#464646" }}>
                 경력 시작
               </label>
               <Box display={"flex"} justifyContent={"space-between"} mt={2}>
@@ -55,9 +55,9 @@ const SignTrainerStep3 = () => {
                   onChangeValue={handleSelectExercise}
                 ></Select>
               </Box>
-            </div>
-            <div className="input-item">
-              <label id="nickname-label" className="label">
+            </InputItem>
+            <InputItem>
+              <label id="nickname-label" style={{ color: "#464646" }}>
                 자격 및 수상
               </label>
               <Typography variant="body2">{`트레이너님을 대표 할 수 있는 사진을 업로드 해주세요 :)`} </Typography>
@@ -66,9 +66,9 @@ const SignTrainerStep3 = () => {
                 <UploadImage images={imageList} onChangeValue={handleProfileChange} />
                 <Input fullWidth sx={{ height: "65px" }}></Input>
               </Box>
-            </div>
+            </InputItem>
           </FormControl>
-        </SignMemberFormBox>
+        </Box>
         <Link href="/signup/trainer/step2">
           <Button variant="contained" fullWidth sx={{ height: "70px" }}>
             회원가입 신청
@@ -79,17 +79,4 @@ const SignTrainerStep3 = () => {
   );
 };
 
-const SignMemberFormBox = styled(Box)`
-  margin-bottom: auto;
-
-  .label {
-    color: #464646;
-  }
-
-  .input-item {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-  }
-`;
 export default SignTrainerStep3;
