@@ -1,53 +1,9 @@
 "use client";
 import React from "react";
 import { signIn } from "next-auth/react";
-import { Button, Box } from "@mui/material";
-import styled from "@emotion/styled";
+import { Box } from "@mui/material";
+import { Button, Typography, KakaoLogo, NaverLogo } from "@/components";
 import Image from "next/image";
-import KakaoLogo from "@/components/svg/KakaLog";
-import NaverLogo from "@/components/svg/NaverLogo";
-
-type LoginButtonType = {
-  name: string;
-};
-const BodyBuddyLogo = styled.h1`
-  padding-top: 55%;
-  text-align: center;
-`;
-
-const LoginGuide = styled.div`
-  color: #626262;
-  font-size: 14px;
-`;
-
-const OAuthButtonBox = styled(Box)`
-  margin-top: auto;
-  width: 100%;
-  padding-bottom: 50px;
-`;
-
-const OAuthButton = styled(Button)`
-  position: relative;
-  width: 100%;
-  height: 50px;
-  border-color: transparent;
-  border-radius: 12px;
-  ${(props: LoginButtonType) => {
-    return props.name === "Kakao"
-      ? {
-          color: "#3D3D3D",
-          backgroundColor: "#FEE500",
-          marginTop: "14px",
-        }
-      : { color: "#FFFFFF", backgroundColor: "#4FA42B", marginTop: "10px" };
-  }};
-
-  /* .MuiButton-startIcon svg {
-    position: absolute;
-    top: 15px;
-    left: 18px;
-  } */
-`;
 
 const SignIn = () => {
   const handleSubmit = (name: string) => {
@@ -63,19 +19,34 @@ const SignIn = () => {
 
   return (
     <>
-      <BodyBuddyLogo>
+      <Typography variant="h1" align="center" sx={{ paddingTop: "55%" }}>
         <Image src="/assets/fullLogo.svg" alt="바디버디 로고" title="바디버디" width={194} height={132} />
         <span className="srOnly">바디버디</span>
-      </BodyBuddyLogo>
-      <OAuthButtonBox display="flex" alignItems="center" flexDirection="column">
-        <LoginGuide>SNS로 간편 로그인하세요!</LoginGuide>
-        <OAuthButton name="Kakao" startIcon={<KakaoLogo />} variant="outlined" onClick={() => handleSubmit("kakao")}>
+      </Typography>
+      <Box display="flex" alignItems="center" flexDirection="column" mt={"auto"} pb={7}>
+        <Typography variant="subtitle2">SNS로 간편 로그인하세요!</Typography>
+        <Button
+          variant="contained"
+          fullWidth
+          size="large"
+          name="Kakao"
+          sx={{ height: "50px", borderRadius: "12px", backgroundColor: "#FEE500", marginTop: "14px" }}
+          startIcon={<KakaoLogo />}
+          onClick={() => handleSubmit("kakao")}
+        >
           카카오로 로그인하기
-        </OAuthButton>
-        <OAuthButton name="naver" startIcon={<NaverLogo />} variant="outlined" onClick={() => handleSubmit("naver")}>
+        </Button>
+        <Button
+          name="naver"
+          fullWidth
+          sx={{ height: "50px", borderRadius: "12px", backgroundColor: "#4FA42B", marginTop: "10px" }}
+          startIcon={<NaverLogo />}
+          variant="contained"
+          onClick={() => handleSubmit("naver")}
+        >
           네이버로 로그인하기
-        </OAuthButton>
-      </OAuthButtonBox>
+        </Button>
+      </Box>
     </>
   );
 };

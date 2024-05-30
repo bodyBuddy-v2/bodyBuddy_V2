@@ -1,6 +1,5 @@
-"use client";
-import Button from "@/components/Button/Button";
-import Typography from "@/components/Typography";
+import Button from "@/components/common/Button/Button";
+import Typography from "@/components/common/Typography";
 import React from "react";
 
 const Home = () => {
@@ -26,5 +25,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

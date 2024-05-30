@@ -1,0 +1,123 @@
+"use client";
+import React, { useState, ChangeEvent } from "react";
+import { styled } from "@mui/material/styles";
+import { Alert } from "@mui/material";
+
+export type ImageFile = {
+  name: string; // 파일 이름
+  size: number; // 파일 크기 (바이트 단위)
+  type: string; // MIME 타입 (예: image/jpeg, image/png 등)
+  url?: string; // 이미지 파일의 URL (옵션)
+  // lastModifiedDate?: Date;
+};
+
+export type fileInputType = {
+  value: ImageFile[];
+  disabled?: boolean;
+  multiple?: boolean;
+  height?: number | string;
+  width?: number | string;
+  validation?: string[];
+  onChangeValue: (values: ImageFile[]) => void;
+};
+
+export const FileInput = (props: fileInputType) => {
+  const {
+    value,
+    multiple = false,
+    disabled = false,
+    height = "64px",
+    width = "92px",
+    validation,
+    onChangeValue,
+  } = props;
+  const [alterFlag, setAlterFlag] = useState<boolean>(false);
+
+  const checkImageExtension = (validate: string[]) => {
+    let flag = true;
+
+    value.forEach((file: ImageFile) => {
+      const type = file.type.split("/")[1];
+      if (!validate.includes(type)) {
+        flag = false;
+      }
+    });
+
+    return flag ? true : false;
+  };
+  const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+
+    const files = Array.from(event.target?.files);
+    const fileArr: ImageFile[] = [];
+
+    files.forEach((file: File) => {
+      const copyfile: ImageFile = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      };
+
+      const fileReader = new FileReader();
+
+      fileReader.onload = (event: ProgressEvent<FileReader>) => {
+        const result = event.target?.result;
+        if (typeof result === "string") {
+          copyfile.url = result;
+        }
+
+        fileArr.push(copyfile);
+
+        if (fileArr.length === files.length) {
+          onChangeValue(fileArr);
+        }
+      };
+
+      fileReader.readAsDataURL(file);
+    });
+
+    if (validation && !checkImageExtension(validation)) {
+      setAlterFlag(true);
+      return;
+    }
+  };
+
+  return (
+    <>
+      <Label htmlFor="inputFile" height={height} width={width}>
+        <input
+          id="inputFile"
+          disabled={disabled}
+          type="file"
+          accept="image/*"
+          multiple={multiple}
+          style={{ display: "none" }}
+          onChange={onChangeInput}
+        />
+      </Label>
+      {alterFlag && (
+        <Alert
+          severity="error"
+          onClose={() => {
+            setAlterFlag(false);
+          }}
+          sx={{ position: "absolute", right: "30%", bottom: "20%" }}
+        >
+          {`"jpg", "jpeg", "png" 형식의 이미지만 선택해주세요.`}
+        </Alert>
+      )}
+    </>
+  );
+};
+
+const Label = styled("label")<Pick<fileInputType, "width" | "height">>(({ width, height }) => ({
+  width: typeof width === "number" ? `${width}px` : width,
+  height: typeof height === "number" ? `${height}px` : height,
+  display: "inline-block",
+  background: 'url("/assets/common/camera.svg") no-repeat',
+  backgroundPosition: "center",
+  border: "1px solid #b9b9b9",
+  cursor: "pointer",
+}));
+
+export default FileInput;

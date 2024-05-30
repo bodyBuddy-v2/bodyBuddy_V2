@@ -1,10 +1,7 @@
 "use client";
-import Providers from "@/components/Providers";
+import { SEO, Providers, StyledLayout, Theme } from "@/components";
 import { Container } from "@mui/material";
-import StyledLayout from "@/components/StyledLayout";
-import SEO from "@/components/SEO";
 import { ThemeProvider } from "@mui/material/styles";
-import Theme from "@/components/Theme";
 import CssBaseline from "@mui/material/CssBaseline";
 
 export default function RootLayout({
