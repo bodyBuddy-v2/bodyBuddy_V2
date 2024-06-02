@@ -7,18 +7,18 @@ export type ImageFile = {
   name: string; // 파일 이름
   size: number; // 파일 크기 (바이트 단위)
   type: string; // MIME 타입 (예: image/jpeg, image/png 등)
-  url?: string; // 이미지 파일의 URL (옵션)
+  url: string; // 이미지 파일의 URL (옵션)
   // lastModifiedDate?: Date;
 };
 
 export type fileInputType = {
-  value: ImageFile[];
+  value: ImageFile | ImageFile[] | null;
   disabled?: boolean;
   multiple?: boolean;
   height?: number | string;
   width?: number | string;
   validation?: string[];
-  onChangeValue: (values: ImageFile[]) => void;
+  onChangeValue: (values: ImageFile | ImageFile[] | null) => void;
 };
 
 export const FileInput = (props: fileInputType) => {
@@ -33,55 +33,78 @@ export const FileInput = (props: fileInputType) => {
   } = props;
   const [alterFlag, setAlterFlag] = useState<boolean>(false);
 
-  const checkImageExtension = (validate: string[]) => {
-    let flag = true;
+  // const checkImageExtension = (validate: string[]) => {
+  //   let flag = true;
 
-    value.forEach((file: ImageFile) => {
-      const type = file.type.split("/")[1];
-      if (!validate.includes(type)) {
-        flag = false;
-      }
-    });
+  //   value.forEach((file: ImageFile) => {
+  //     const type = file.type.split("/")[1];
+  //     if (!validate.includes(type)) {
+  //       flag = false;
+  //     }
+  //   });
 
-    return flag ? true : false;
-  };
+  //   return flag ? true : false;
+  // };
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
-    const files = Array.from(event.target?.files);
-    const fileArr: ImageFile[] = [];
+    const files = Array.from(event.target.files);
+    if (!files.length) return;
 
-    files.forEach((file: File) => {
-      const copyfile: ImageFile = {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-      };
+    if (!Array.isArray(value)) {
+      // value가 배열이 아닌 경우 처리
+      const file = files[0];
+      const reader = new FileReader();
 
-      const fileReader = new FileReader();
-
-      fileReader.onload = (event: ProgressEvent<FileReader>) => {
-        const result = event.target?.result;
+      reader.onload = () => {
+        const result = reader.result;
         if (typeof result === "string") {
-          copyfile.url = result;
-        }
-
-        fileArr.push(copyfile);
-
-        if (fileArr.length === files.length) {
-          onChangeValue(fileArr);
+          const newFile: ImageFile = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            url: result,
+          };
+          onChangeValue(newFile);
         }
       };
 
-      fileReader.readAsDataURL(file);
-    });
+      reader.readAsDataURL(file);
 
-    if (validation && !checkImageExtension(validation)) {
-      setAlterFlag(true);
-      return;
+      // if (validation && !checkImageExtension(file.type, validation)) {
+      //   setAlertFlag(true);
+      // }
+    } else {
+      // value가 배열인 경우 처리
+      const fileArr: ImageFile[] = [];
+      files.forEach((file: File) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          const result = reader.result;
+          if (typeof result === "string") {
+            const newFile: ImageFile = {
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              url: result,
+            };
+            fileArr.push(newFile);
+          }
+
+          if (fileArr.length === files.length) {
+            onChangeValue(fileArr);
+          }
+        };
+
+        reader.readAsDataURL(file);
+      });
+
+      // if (validation && !checkImageExtension(files[0].type, validation)) {
+      //   setAlertFlag(true);
+      // }
     }
   };
-
   return (
     <>
       <Label htmlFor="inputFile" height={height} width={width}>
