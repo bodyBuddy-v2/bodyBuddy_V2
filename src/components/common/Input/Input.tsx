@@ -4,6 +4,7 @@ import { Input as MuiInput, styled } from "@mui/material";
 import type { InputProps } from "@mui/material";
 
 export type InputType = {
+  value: string | number;
   children?: React.ReactNode;
   /** custom으로 들어올 수 있는 아이들 */
 } & InputProps;
