@@ -9,7 +9,7 @@ interface ISelect extends SelectProps {
   currentSelectedData: string;
   width?: number;
   height?: number;
-  onChangeValue: (value: string[]) => void;
+  onChangeValue: (value: string) => void;
 }
 
 const Select = (props: ISelect) => {
@@ -20,9 +20,7 @@ const Select = (props: ISelect) => {
       target: { value },
     } = event;
 
-    const newValue: string[] = typeof value === "string" ? value.split(",") : (value as string[]);
-
-    onChangeValue(newValue);
+    onChangeValue(value as string);
   };
 
   return (
