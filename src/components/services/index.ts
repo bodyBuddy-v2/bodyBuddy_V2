@@ -1,3 +1,3 @@
 import UploadImage from "./UploadImage/UploadImage";
-
-export { UploadImage };
+import { QualificationList } from "./QualificationList/QualificationList";
+export { UploadImage, QualificationList };
