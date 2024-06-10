@@ -1,22 +1,10 @@
+"use client";
 import { useState, ChangeEvent } from "react";
 import { RemoveBtn, ImageFile as Picture } from "../../common/ImageList/ImageList";
 import { Box, styled } from "@mui/material";
 import Image from "next/image";
 import { Button, Typography, Input, FileInput } from "@/components";
-import type { ImageFile } from "@/components/common/Input/FileInput";
-
-export type QualificationPost = {
-  index: number;
-  uploadUrl: ImageFile;
-  content: string;
-  width?: number;
-  height?: number;
-  onChangeValue: (
-    state: "update" | "delete",
-    index: number,
-    newItem: { text?: string | null; imageUrl?: ImageFile | null },
-  ) => void;
-};
+import { QualificationPost, ImageFile } from "./types";
 
 export const QualificationList = (props: QualificationPost) => {
   const { index, uploadUrl, content, height = 64, width = 92, onChangeValue } = props;

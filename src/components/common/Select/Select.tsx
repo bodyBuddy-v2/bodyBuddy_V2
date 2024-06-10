@@ -1,16 +1,8 @@
 "use client";
 
-import { Select as MuiSelect, styled } from "@mui/material";
-import { MenuItem } from "@mui/material";
-import type { SelectChangeEvent, SelectProps } from "@mui/material";
-
-interface ISelect extends SelectProps {
-  items: string[];
-  currentSelectedData: string;
-  width?: number;
-  height?: number;
-  onChangeValue: (value: string) => void;
-}
+import { Select as MuiSelect, styled, MenuItem } from "@mui/material";
+import type { SelectChangeEvent } from "@mui/material";
+import { ISelect } from "./types";
 
 const Select = (props: ISelect) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;

@@ -1,19 +1,9 @@
 "use client";
-import { Select as MuiSelect, SelectChangeEvent } from "@mui/material";
-import { MenuItem } from "@mui/material";
+import { Select as MuiSelect, SelectChangeEvent, MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
-import type { SelectProps } from "@mui/material";
+import { IMultiSelect } from "./types";
 
-export interface ISelect extends SelectProps {
-  items: Array<string>;
-  placeholder?: string;
-  currentSelectedData?: string[];
-  height?: number;
-  width?: number;
-  onChangeValue: (values: string[]) => void;
-}
-
-const MultiSelect = (props: ISelect) => {
+const MultiSelect = (props: IMultiSelect) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
@@ -56,7 +46,7 @@ const MultiSelect = (props: ISelect) => {
 
 export default MultiSelect;
 
-const StyledSelect = styled(MuiSelect)<Pick<ISelect, "width" | "height">>`
+const StyledSelect = styled(MuiSelect)<Pick<IMultiSelect, "width" | "height">>`
   border: 1px solid #cdcdcd;
   border-radius: 10px;
   padding-left: 10px;

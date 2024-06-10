@@ -1,14 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import type { ImageFile } from "../../common/Input/FileInput";
+// import type { ImageFile } from "../../common/Input/FileInput";
 import { FileInput, ImageList } from "../../common";
-
-export type UploadFileType = {
-  images: ImageFile[];
-  width?: number;
-  height?: number;
-  onChangeValue?: (values: File[]) => void;
-};
+import type { UploadFileType, ImageFile } from "./types";
 
 export const UploadImage = (props: UploadFileType) => {
   const { images, height, width, onChangeValue } = props;
