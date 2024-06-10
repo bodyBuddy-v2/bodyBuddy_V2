@@ -1,13 +1,7 @@
 "use client";
 import { styled } from "@mui/material/styles";
 import Image from "next/image";
-
-export type ImageListType = {
-  images: string[];
-  width?: number;
-  height?: number;
-  onChangeValue: (index: number) => void;
-};
+import { ImageListType } from "./types";
 
 export const ImageList = (props: ImageListType) => {
   const { images, height = 64, width = 92, onChangeValue } = props;
