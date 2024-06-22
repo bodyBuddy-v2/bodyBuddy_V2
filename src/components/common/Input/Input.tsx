@@ -1,12 +1,13 @@
 "use client";
+import React, { forwardRef } from "react";
 import { Input as MuiInput, styled } from "@mui/material";
 import { InputType } from "./types";
 
-const Input = (props: InputType) => {
+const Input = forwardRef((props: InputType, ref) => {
   const { disableUnderline = true, ...others } = props;
 
-  return <StyledInput disableUnderline={disableUnderline} {...others}></StyledInput>;
-};
+  return <StyledInput ref={ref} disableUnderline={disableUnderline} {...others}></StyledInput>;
+});
 
 export default Input;
 

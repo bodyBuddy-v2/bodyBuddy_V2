@@ -1,24 +1,38 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import { Box, FormControl } from "@mui/material";
 import { Select, Input, Typography, Button } from "@/components";
+import { useForm, Controller } from "react-hook-form";
+import { UserFormKey } from "@/constant/common/formKey";
 
 import city from "@/constant/common/city";
 import district from "@/constant/common/district";
+interface IMemberFormData {
+  [UserFormKey.NICKNAME]: string;
+  [UserFormKey.CITY]: string;
+  [UserFormKey.DISTRICT]: string;
+}
 
 const SignMember = () => {
-  const [selectCity, setSelectCity] = useState<string>("");
-  const [selectDistrict, setSelectDistrict] = useState<string>("");
+  const [selectCity, setSelectCity] = useState("");
+  const [selectDistrict, setSelectDistrict] = useState("");
 
-  const handleCityChange = (city: string) => {
-    setSelectCity(city);
-    setSelectDistrict(district[city][0]);
-  };
+  const { register, handleSubmit, control, formState, watch } = useForm<IMemberFormData>({
+    // resolver: yupResolver(signUpFormSchema()),
+    defaultValues: {
+      [UserFormKey.NICKNAME]: "",
+      [UserFormKey.CITY]: "",
+      [UserFormKey.DISTRICT]: "",
+    },
+  });
 
-  const handleDistrict = (district: string) => {
-    setSelectDistrict(district);
-  };
+  // const onSubmit = data => console.log(data);
+
+  useEffect(() => {
+    // console.log("touchedFields", formState.touchedFields);
+    // console.log(UserFormKey.NICKNAME);
+  }, [formState]); // use entire formState object as optional array arg in useEffect, not individual properties of it
 
   return (
     <>
@@ -39,42 +53,85 @@ const SignMember = () => {
           </Typography>
           <Typography variant="subtitle1">{`간단한 기본 정보를 입력해주세요 :)`}</Typography>
         </Box>
-        <Box mb="auto">
-          <FormControl fullWidth>
+        <form>
+          <Box mb="auto">
             <InputItem>
-              <label id="nickname-label" style={{ color: "#464646" }}>
+              <label htmlFor="nickname-input" style={{ color: "#464646" }}>
                 닉네임
               </label>
-              <Input placeholder="특수 문자 제외 5자 이내" />
+              <Controller
+                name={UserFormKey.NICKNAME}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    id="nickname-input"
+                    placeholder="특수 문자 제외 5자 이내"
+                    value={field.value}
+                    onChange={field.onChange}
+                    error={true}
+                  />
+                )}
+              />
             </InputItem>
             <InputItem>
-              <label id="nickname-label" style={{ color: "P#464646" }}>
+              <label htmlFor="city-select" style={{ color: "P#464646" }}>
                 관심 지역
               </label>
               <Box display={"flex"} justifyContent={"space-between"} mt={2}>
-                <Select
-                  currentSelectedData={selectCity}
-                  items={city}
-                  placeholder="지역"
-                  height={38}
-                  width={240}
-                  onChangeValue={handleCityChange}
-                ></Select>
-                <Select
-                  currentSelectedData={selectDistrict}
-                  items={district[selectCity]}
-                  placeholder="시/군/구"
-                  height={38}
-                  width={240}
-                  onChangeValue={handleDistrict}
-                ></Select>
+                <Controller
+                  name={UserFormKey.CITY}
+                  control={control}
+                  render={({ field, fieldState }) => {
+                    const handleCityChange = (city: string) => {
+                      setSelectCity(city);
+                      setSelectDistrict(district[city][0]);
+                    };
+
+                    return (
+                      <FormControl fullWidth>
+                        <Select
+                          ref={field.ref}
+                          currentSelectedData={selectCity}
+                          items={city}
+                          placeholder="지역"
+                          height={38}
+                          width={240}
+                          onChangeValue={field.onChange}
+                        ></Select>
+                      </FormControl>
+                    );
+                  }}
+                ></Controller>
+
+                <Controller
+                  name={UserFormKey.DISTRICT}
+                  control={control}
+                  render={({ field }) => {
+                    const handleDistrict = (district: string) => {
+                      setSelectDistrict(district);
+                    };
+
+                    return (
+                      <Select
+                        ref={field.ref}
+                        currentSelectedData={selectDistrict}
+                        items={district[selectCity]}
+                        placeholder="시/군/구"
+                        height={38}
+                        width={240}
+                        onChangeValue={handleDistrict}
+                      ></Select>
+                    );
+                  }}
+                ></Controller>
               </Box>
             </InputItem>
-          </FormControl>
-        </Box>
-        <Button variant="contained" fullWidth sx={{ height: "77px" }}>
-          회원가입
-        </Button>
+          </Box>
+          <Button variant="contained" fullWidth sx={{ height: "77px" }} type="submit">
+            회원가입
+          </Button>
+        </form>
       </Box>
     </>
   );

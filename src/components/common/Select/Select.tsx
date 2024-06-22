@@ -1,10 +1,10 @@
 "use client";
-
+import React, { forwardRef } from "react";
 import { Select as MuiSelect, styled, MenuItem } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
 import { ISelect } from "./types";
 
-const Select = (props: ISelect) => {
+const Select = forwardRef((props: ISelect, ref) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
@@ -18,6 +18,7 @@ const Select = (props: ISelect) => {
   return (
     <>
       <StyledSelect
+        ref={ref}
         value={currentSelectedData}
         onChange={handleChange}
         displayEmpty
@@ -40,7 +41,7 @@ const Select = (props: ISelect) => {
       </StyledSelect>
     </>
   );
-};
+});
 
 export default Select;
 
