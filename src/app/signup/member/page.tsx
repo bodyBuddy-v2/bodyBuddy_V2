@@ -4,10 +4,12 @@ import { styled } from "@mui/material/styles";
 import { Box, FormControl } from "@mui/material";
 import { Select, Input, Typography, Button } from "@/components";
 import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { UserFormKey } from "@/constant/common/formKey";
+import signUpFormSchema from "@/schema/signup/signUpFormSchema";
 
 import city from "@/constant/common/city";
-import district from "@/constant/common/district";
+import districts from "@/constant/common/district";
 interface IMemberFormData {
   [UserFormKey.NICKNAME]: string;
   [UserFormKey.CITY]: string;
@@ -15,11 +17,10 @@ interface IMemberFormData {
 }
 
 const SignMember = () => {
-  const [selectCity, setSelectCity] = useState("");
-  const [selectDistrict, setSelectDistrict] = useState("");
+  const [districtOptions, setDistrictOptions] = useState<string[]>([]);
 
-  const { register, handleSubmit, control, formState, watch } = useForm<IMemberFormData>({
-    // resolver: yupResolver(signUpFormSchema()),
+  const { register, handleSubmit, control, formState, watch, setValue } = useForm<IMemberFormData>({
+    resolver: yupResolver(signUpFormSchema()),
     defaultValues: {
       [UserFormKey.NICKNAME]: "",
       [UserFormKey.CITY]: "",
@@ -27,12 +28,16 @@ const SignMember = () => {
     },
   });
 
-  // const onSubmit = data => console.log(data);
+  // const onSubmit = data => console.log("data", data);
+
+  const selectCity = watch("city");
 
   useEffect(() => {
-    // console.log("touchedFields", formState.touchedFields);
-    // console.log(UserFormKey.NICKNAME);
-  }, [formState]); // use entire formState object as optional array arg in useEffect, not individual properties of it
+    if (selectCity) {
+      setDistrictOptions(districts[selectCity] || []);
+      setValue("district", "");
+    }
+  }, [selectCity]);
 
   return (
     <>
@@ -53,7 +58,9 @@ const SignMember = () => {
           </Typography>
           <Typography variant="subtitle1">{`간단한 기본 정보를 입력해주세요 :)`}</Typography>
         </Box>
+
         <form>
+          {/* onSubmit={handleSubmit(onSubmit)} */}
           <Box mb="auto">
             <InputItem>
               <label htmlFor="nickname-input" style={{ color: "#464646" }}>
@@ -83,16 +90,11 @@ const SignMember = () => {
                   name={UserFormKey.CITY}
                   control={control}
                   render={({ field, fieldState }) => {
-                    const handleCityChange = (city: string) => {
-                      setSelectCity(city);
-                      setSelectDistrict(district[city][0]);
-                    };
-
                     return (
                       <FormControl fullWidth>
                         <Select
                           ref={field.ref}
-                          currentSelectedData={selectCity}
+                          currentSelectedData={field.value}
                           items={city}
                           placeholder="지역"
                           height={38}
@@ -108,19 +110,15 @@ const SignMember = () => {
                   name={UserFormKey.DISTRICT}
                   control={control}
                   render={({ field }) => {
-                    const handleDistrict = (district: string) => {
-                      setSelectDistrict(district);
-                    };
-
                     return (
                       <Select
                         ref={field.ref}
-                        currentSelectedData={selectDistrict}
-                        items={district[selectCity]}
+                        currentSelectedData={field.value}
+                        items={districtOptions}
                         placeholder="시/군/구"
                         height={38}
                         width={240}
-                        onChangeValue={handleDistrict}
+                        onChangeValue={field.onChange}
                       ></Select>
                     );
                   }}
