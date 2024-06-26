@@ -1,15 +1,16 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, FormControl } from "@mui/material";
+import { Box, FormControl, FormLabel } from "@mui/material";
 import { Select, Input, Typography, Button } from "@/components";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserFormKey } from "@/constant/common/formKey";
 import signUpFormSchema from "@/schema/signup/signUpFormSchema";
 
-import city from "@/constant/common/city";
 import districts from "@/constant/common/district";
+import city from "@/constant/common/city";
 interface IMemberFormData {
   [UserFormKey.NICKNAME]: string;
   [UserFormKey.CITY]: string;
@@ -19,25 +20,21 @@ interface IMemberFormData {
 const SignMember = () => {
   const [districtOptions, setDistrictOptions] = useState<string[]>([]);
 
+  const schema = signUpFormSchema();
+
   const { register, handleSubmit, control, formState, watch, setValue } = useForm<IMemberFormData>({
-    resolver: yupResolver(signUpFormSchema()),
+    mode: "onChange",
     defaultValues: {
       [UserFormKey.NICKNAME]: "",
       [UserFormKey.CITY]: "",
       [UserFormKey.DISTRICT]: "",
     },
+    resolver: yupResolver(schema),
   });
 
-  // const onSubmit = data => console.log("data", data);
-
-  const selectCity = watch("city");
-
-  useEffect(() => {
-    if (selectCity) {
-      setDistrictOptions(districts[selectCity] || []);
-      setValue("district", "");
-    }
-  }, [selectCity]);
+  const handleSignUpClick = async (data: IMemberFormData) => {
+    // 관련 handle 동작
+  };
 
   return (
     <>
@@ -59,8 +56,7 @@ const SignMember = () => {
           <Typography variant="subtitle1">{`간단한 기본 정보를 입력해주세요 :)`}</Typography>
         </Box>
 
-        <form>
-          {/* onSubmit={handleSubmit(onSubmit)} */}
+        <form onSubmit={handleSubmit(data => handleSignUpClick(data))}>
           <Box mb="auto">
             <InputItem>
               <label htmlFor="nickname-input" style={{ color: "#464646" }}>
@@ -70,14 +66,17 @@ const SignMember = () => {
                 name={UserFormKey.NICKNAME}
                 control={control}
                 render={({ field, fieldState }) => (
-                  <Input
-                    {...field}
-                    id="nickname-input"
-                    placeholder="특수 문자 제외 5자 이내"
-                    value={field.value}
-                    onChange={field.onChange}
-                    error={true}
-                  />
+                  <>
+                    <Input
+                      {...field}
+                      id="nickname-input"
+                      placeholder="특수 문자 제외 5자 이내"
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={Boolean(fieldState.error)}
+                    />
+                    {fieldState.error?.message && <FormLabel error={true}>{fieldState.error.message}</FormLabel>}
+                  </>
                 )}
               />
             </InputItem>
@@ -99,8 +98,13 @@ const SignMember = () => {
                           placeholder="지역"
                           height={38}
                           width={240}
-                          onChangeValue={field.onChange}
-                        ></Select>
+                          onChangeValue={value => {
+                            setDistrictOptions(districts[value] || []);
+                            setValue("district", "");
+                            field.onChange(value);
+                          }}
+                          error={Boolean(fieldState.error)}
+                        />
                       </FormControl>
                     );
                   }}
@@ -109,7 +113,7 @@ const SignMember = () => {
                 <Controller
                   name={UserFormKey.DISTRICT}
                   control={control}
-                  render={({ field }) => {
+                  render={({ field, fieldState }) => {
                     return (
                       <Select
                         ref={field.ref}
@@ -118,8 +122,9 @@ const SignMember = () => {
                         placeholder="시/군/구"
                         height={38}
                         width={240}
-                        onChangeValue={field.onChange}
-                      ></Select>
+                        onChangeValue={value => field.onChange(value)}
+                        error={Boolean(fieldState.error)}
+                      />
                     );
                   }}
                 ></Controller>

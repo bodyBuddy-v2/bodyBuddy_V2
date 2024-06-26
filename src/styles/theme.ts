@@ -12,6 +12,7 @@ const theme = {
   realBlack: "#000000",
   white: "#ffffff",
   lightBlue: "#70B4E0",
+  red: "F90C0C",
 };
 
 export default theme;

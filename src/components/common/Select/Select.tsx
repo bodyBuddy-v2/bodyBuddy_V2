@@ -52,4 +52,8 @@ const StyledSelect = styled(MuiSelect)<Pick<ISelect, "width" | "height">>(({ wid
   minWidth: width ? `${width}px` : "200px",
   minHeight: height ? `${height}px` : "30px",
   boxSizing: "content-box",
+
+  "&.Mui-error": {
+    border: `1px solid #F90C0C`,
+  },
 }));
