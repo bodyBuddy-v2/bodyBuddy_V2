@@ -11,14 +11,17 @@ const Input = forwardRef((props: InputType, ref) => {
 
 export default Input;
 
-const StyledInput = styled(MuiInput)(({ theme }) => ({
+const StyledInput = styled(MuiInput)(({ theme, color }) => ({
   border: "1px solid #cdcdcd",
   borderRadius: "10px",
   paddingLeft: "10px",
   paddingTop: "4px",
   paddingBottom: "4px",
 
-  "&.Mui-error": {
-    border: `1px solid #F90C0C`,
-  },
+  ...(color === "error" && {
+    border: `1px solid ${theme.palette.error.main}`,
+  }),
+  ...(color === "success" && {
+    border: `1px solid ${theme.palette.success.main}`,
+  }),
 }));

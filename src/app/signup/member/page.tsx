@@ -74,8 +74,19 @@ const SignMember = () => {
                       value={field.value}
                       onChange={field.onChange}
                       error={Boolean(fieldState.error)}
+                      color={fieldState.error ? "error" : !fieldState.error && field.value ? "success" : undefined}
                     />
-                    {fieldState.error?.message && <FormLabel error={true}>{fieldState.error.message}</FormLabel>}
+
+                    {fieldState.error ? (
+                      <FormLabel error={true} sx={{ fontSize: "10px" }}>
+                        {fieldState.error.message}
+                      </FormLabel>
+                    ) : (
+                      !fieldState.error &&
+                      field.value && (
+                        <FormLabel sx={{ color: "success.main", fontSize: "10px" }}>좋은 닉네임이에요 !</FormLabel>
+                      )
+                    )}
                   </>
                 )}
               />
@@ -109,7 +120,6 @@ const SignMember = () => {
                     );
                   }}
                 ></Controller>
-
                 <Controller
                   name={UserFormKey.DISTRICT}
                   control={control}
@@ -129,6 +139,13 @@ const SignMember = () => {
                   }}
                 ></Controller>
               </Box>
+              {formState.errors[UserFormKey.CITY] ? (
+                <Typography color="error">{formState.errors[UserFormKey.CITY]?.message}</Typography>
+              ) : (
+                formState.errors[UserFormKey.DISTRICT] && (
+                  <Typography color="error">{formState.errors[UserFormKey.DISTRICT]?.message}</Typography>
+                )
+              )}
             </InputItem>
           </Box>
           <Button variant="contained" fullWidth sx={{ height: "77px" }} type="submit">
