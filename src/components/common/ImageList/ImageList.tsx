@@ -1,13 +1,7 @@
 "use client";
 import { styled } from "@mui/material/styles";
 import Image from "next/image";
-
-export type ImageListType = {
-  images: string[];
-  width?: number;
-  height?: number;
-  onChangeValue: (index: number) => void;
-};
+import { ImageListType } from "./types";
 
 export const ImageList = (props: ImageListType) => {
   const { images, height = 64, width = 92, onChangeValue } = props;
@@ -28,7 +22,7 @@ export const ImageList = (props: ImageListType) => {
   );
 };
 
-const ImageFile = styled("div")<Pick<ImageListType, "width" | "height">>(props => {
+export const ImageFile = styled("div")<Pick<ImageListType, "width" | "height">>(props => {
   const { width, height } = props;
   return {
     width: `${width}px`,
@@ -39,7 +33,7 @@ const ImageFile = styled("div")<Pick<ImageListType, "width" | "height">>(props =
   };
 });
 
-const RemoveBtn = styled("button")(({ theme }) => ({
+export const RemoveBtn = styled("button")(({ theme }) => ({
   position: "absolute",
   top: "-10px",
   right: "-3px",

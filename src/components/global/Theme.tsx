@@ -87,6 +87,9 @@ export const Theme = createTheme({
     error: {
       main: "#F90C0C",
     },
+    success: {
+      main: "#0088E0",
+    },
     grey: {
       100: "#CDCDCD",
       200: "#ECECEC",

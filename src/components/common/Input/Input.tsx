@@ -1,25 +1,27 @@
 "use client";
+import React, { forwardRef } from "react";
 import { Input as MuiInput, styled } from "@mui/material";
+import { InputType } from "./types";
 
-import type { InputProps } from "@mui/material";
-
-export type InputType = {
-  children?: React.ReactNode;
-  /** custom으로 들어올 수 있는 아이들 */
-} & InputProps;
-
-const Input = (props: InputType) => {
+const Input = forwardRef((props: InputType, ref) => {
   const { disableUnderline = true, ...others } = props;
 
-  return <StyledInput disableUnderline={disableUnderline} {...others}></StyledInput>;
-};
+  return <StyledInput ref={ref} disableUnderline={disableUnderline} {...others}></StyledInput>;
+});
 
 export default Input;
 
-const StyledInput = styled(MuiInput)`
-  border: 1px solid #cdcdcd;
-  border-radius: 10px;
-  padding-left: 10px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-`;
+const StyledInput = styled(MuiInput)(({ theme, color }) => ({
+  border: "1px solid #cdcdcd",
+  borderRadius: "10px",
+  paddingLeft: "10px",
+  paddingTop: "4px",
+  paddingBottom: "4px",
+
+  ...(color === "error" && {
+    border: `1px solid ${theme.palette.error.main}`,
+  }),
+  ...(color === "success" && {
+    border: `1px solid ${theme.palette.success.main}`,
+  }),
+}));

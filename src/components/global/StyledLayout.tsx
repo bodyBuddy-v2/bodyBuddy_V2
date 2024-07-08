@@ -1,9 +1,6 @@
 "use client";
 import { Box, styled } from "@mui/material";
-
-type ContainerType = {
-  children: React.ReactNode;
-};
+import { IDefaultProps } from "./types";
 
 const BoxSection = styled(Box)({
   height: "100vh",
@@ -12,7 +9,7 @@ const BoxSection = styled(Box)({
   padding: "16px",
 });
 
-const StyledLayout = ({ children }: ContainerType) => {
+const StyledLayout = ({ children }: IDefaultProps) => {
   return (
     <>
       <BoxSection display="flex" flexDirection="column">

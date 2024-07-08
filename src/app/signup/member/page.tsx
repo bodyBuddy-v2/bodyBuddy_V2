@@ -1,23 +1,39 @@
 "use client";
+
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, FormControl } from "@mui/material";
+import { Box, FormControl, FormLabel } from "@mui/material";
 import { Select, Input, Typography, Button } from "@/components";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { UserFormKey } from "@/constant/common/formKey";
+import signUpFormSchema from "@/schema/signup/signUpFormSchema";
 
+import districts from "@/constant/common/district";
 import city from "@/constant/common/city";
-import district from "@/constant/common/district";
+interface IMemberFormData {
+  [UserFormKey.NICKNAME]: string;
+  [UserFormKey.CITY]: string;
+  [UserFormKey.DISTRICT]: string;
+}
 
 const SignMember = () => {
-  const [selectCity, setSelectCity] = useState<string>("");
-  const [selectDistrict, setSelectDistrict] = useState<string>("");
+  const [districtOptions, setDistrictOptions] = useState<string[]>([]);
 
-  const handleCityChange = (city: string) => {
-    setSelectCity(city);
-    setSelectDistrict(district[city][0]);
-  };
+  const schema = signUpFormSchema();
 
-  const handleDistrict = (district: string) => {
-    setSelectDistrict(district);
+  const { register, handleSubmit, control, formState, watch, setValue } = useForm<IMemberFormData>({
+    mode: "onChange",
+    defaultValues: {
+      [UserFormKey.NICKNAME]: "",
+      [UserFormKey.CITY]: "",
+      [UserFormKey.DISTRICT]: "",
+    },
+    resolver: yupResolver(schema),
+  });
+
+  const handleSignUpClick = async (data: IMemberFormData) => {
+    // 관련 handle 동작
   };
 
   return (
@@ -39,42 +55,103 @@ const SignMember = () => {
           </Typography>
           <Typography variant="subtitle1">{`간단한 기본 정보를 입력해주세요 :)`}</Typography>
         </Box>
-        <Box mb="auto">
-          <FormControl fullWidth>
+
+        <form onSubmit={handleSubmit(data => handleSignUpClick(data))}>
+          <Box mb="auto">
             <InputItem>
-              <label id="nickname-label" style={{ color: "#464646" }}>
+              <label htmlFor="nickname-input" style={{ color: "#464646" }}>
                 닉네임
               </label>
-              <Input placeholder="특수 문자 제외 5자 이내" />
+              <Controller
+                name={UserFormKey.NICKNAME}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <>
+                    <Input
+                      {...field}
+                      id="nickname-input"
+                      placeholder="특수 문자 제외 5자 이내"
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={Boolean(fieldState.error)}
+                      color={fieldState.error ? "error" : !fieldState.error && field.value ? "success" : undefined}
+                    />
+
+                    {fieldState.error ? (
+                      <FormLabel error={true} sx={{ fontSize: "10px" }}>
+                        {fieldState.error.message}
+                      </FormLabel>
+                    ) : (
+                      !fieldState.error &&
+                      field.value && (
+                        <FormLabel sx={{ color: "success.main", fontSize: "10px" }}>좋은 닉네임이에요 !</FormLabel>
+                      )
+                    )}
+                  </>
+                )}
+              />
             </InputItem>
             <InputItem>
-              <label id="nickname-label" style={{ color: "P#464646" }}>
+              <label htmlFor="city-select" style={{ color: "P#464646" }}>
                 관심 지역
               </label>
               <Box display={"flex"} justifyContent={"space-between"} mt={2}>
-                <Select
-                  currentSelectedData={selectCity}
-                  items={city}
-                  placeholder="지역"
-                  height={38}
-                  width={240}
-                  onChangeValue={handleCityChange}
-                ></Select>
-                <Select
-                  currentSelectedData={selectDistrict}
-                  items={district[selectCity]}
-                  placeholder="시/군/구"
-                  height={38}
-                  width={240}
-                  onChangeValue={handleDistrict}
-                ></Select>
+                <Controller
+                  name={UserFormKey.CITY}
+                  control={control}
+                  render={({ field, fieldState }) => {
+                    return (
+                      <FormControl fullWidth>
+                        <Select
+                          ref={field.ref}
+                          currentSelectedData={field.value}
+                          items={city}
+                          placeholder="지역"
+                          height={38}
+                          width={240}
+                          onChangeValue={value => {
+                            setDistrictOptions(districts[value] || []);
+                            setValue("district", "");
+                            field.onChange(value);
+                          }}
+                          error={Boolean(fieldState.error)}
+                        />
+                      </FormControl>
+                    );
+                  }}
+                ></Controller>
+                <Controller
+                  name={UserFormKey.DISTRICT}
+                  control={control}
+                  render={({ field, fieldState }) => {
+                    return (
+                      <Select
+                        ref={field.ref}
+                        currentSelectedData={field.value}
+                        items={districtOptions}
+                        placeholder="시/군/구"
+                        height={38}
+                        width={240}
+                        onChangeValue={value => field.onChange(value)}
+                        error={Boolean(fieldState.error)}
+                      />
+                    );
+                  }}
+                ></Controller>
               </Box>
+              {formState.errors[UserFormKey.CITY] ? (
+                <Typography color="error">{formState.errors[UserFormKey.CITY]?.message}</Typography>
+              ) : (
+                formState.errors[UserFormKey.DISTRICT] && (
+                  <Typography color="error">{formState.errors[UserFormKey.DISTRICT]?.message}</Typography>
+                )
+              )}
             </InputItem>
-          </FormControl>
-        </Box>
-        <Button variant="contained" fullWidth sx={{ height: "77px" }}>
-          회원가입
-        </Button>
+          </Box>
+          <Button variant="contained" fullWidth sx={{ height: "77px" }} type="submit">
+            회원가입
+          </Button>
+        </form>
       </Box>
     </>
   );

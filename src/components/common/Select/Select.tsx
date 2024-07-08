@@ -1,18 +1,10 @@
 "use client";
+import React, { forwardRef } from "react";
+import { Select as MuiSelect, styled, MenuItem } from "@mui/material";
+import type { SelectChangeEvent } from "@mui/material";
+import { ISelect } from "./types";
 
-import { Select as MuiSelect, styled } from "@mui/material";
-import { MenuItem } from "@mui/material";
-import type { SelectChangeEvent, SelectProps } from "@mui/material";
-
-interface ISelect extends SelectProps {
-  items: string[];
-  currentSelectedData: string;
-  width?: number;
-  height?: number;
-  onChangeValue: (value: string[]) => void;
-}
-
-const Select = (props: ISelect) => {
+const Select = forwardRef((props: ISelect, ref) => {
   const { items, placeholder = "None", height, width, currentSelectedData, onChangeValue, ...others } = props;
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
@@ -20,14 +12,13 @@ const Select = (props: ISelect) => {
       target: { value },
     } = event;
 
-    const newValue: string[] = typeof value === "string" ? value.split(",") : (value as string[]);
-
-    onChangeValue(newValue);
+    onChangeValue(value as string);
   };
 
   return (
     <>
       <StyledSelect
+        ref={ref}
         value={currentSelectedData}
         onChange={handleChange}
         displayEmpty
@@ -50,7 +41,7 @@ const Select = (props: ISelect) => {
       </StyledSelect>
     </>
   );
-};
+});
 
 export default Select;
 
@@ -61,4 +52,8 @@ const StyledSelect = styled(MuiSelect)<Pick<ISelect, "width" | "height">>(({ wid
   minWidth: width ? `${width}px` : "200px",
   minHeight: height ? `${height}px` : "30px",
   boxSizing: "content-box",
+
+  "&.Mui-error": {
+    border: `1px solid #F90C0C`,
+  },
 }));

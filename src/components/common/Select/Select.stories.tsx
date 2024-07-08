@@ -25,8 +25,8 @@ export const Default: Story = {
 };
 
 export const Interconnected = () => {
-  const [selectCity, setSelectCity] = useState<string>("");
-  const [selectDistrict, setSelectDistrict] = useState<string>("");
+  const [selectCity, setSelectCity] = useState("");
+  const [selectDistrict, setSelectDistrict] = useState("");
 
   const handleCityChange = (city: string) => {
     setSelectCity(city);
