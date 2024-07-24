@@ -1,18 +1,21 @@
 import { TrainerFormKey } from "@/constant/common/formKey";
-import { array, object, string, number, mixed } from "yup";
+import { array, object, string } from "yup";
+import { exerciseList, fieldList } from "@/constant/common/signup";
 
 const TrainerFormSchema = () => {
   return object().shape({
-    [TrainerFormKey.CATEGORY]: string().required("종목을 선택해 주세요."),
-    [TrainerFormKey.FIELD]: string().required("분야를 선택해 주세요."),
-    [TrainerFormKey.RROFILEIMG]: array()
-      .of(
-        object().shape({
-          File: mixed().required(),
-        }),
-      )
-      .required(),
-    [TrainerFormKey.COMMENT]: string().required("").max(5, "최대 20자를 초과했습니다!"),
+    [TrainerFormKey.CATEGORY]: string()
+      .oneOf(exerciseList, "유효한 종목을 선택해주세요.")
+      .required("종목을 선택해 주세요."),
+    [TrainerFormKey.FIELD]: string().oneOf(fieldList, "유효한 분야를 선택해주세요.").required("분야를 선택해 주세요."),
+    // [TrainerFormKey.RROFILEIMG]: array()
+    //   .of(
+    //     object().shape({
+    //       File: mixed().required(),
+    //     }),
+    //   )
+    //   .required(),
+    [TrainerFormKey.COMMENT]: string().required("프로필 코멘트를 입력해주세요.").max(20, "최대 20자를 초과했습니다!"),
     [TrainerFormKey.TRAININGNAME]: string().required(""),
     [TrainerFormKey.TRAININGIMG]: array()
       .of(
@@ -23,15 +26,11 @@ const TrainerFormSchema = () => {
       )
       .required(),
     [TrainerFormKey.TRAININGPATH]: string(),
-    [TrainerFormKey.COST]: number().required(),
-    [TrainerFormKey.YEAR]: number().required(),
-    [TrainerFormKey.MONTH]: number().test("required year info", "년도를 선택해 주세요.", (value, ctx) => {
-      const { year } = ctx.parent;
-
-      if (!value) return;
-      console.log(Boolean(year) && !!value);
-      return Boolean(year) && !!value;
-    }),
+    [TrainerFormKey.COST]: string()
+      .required("비용을 입력해주세요.")
+      .matches(/^[0-9,]+$/, "숫자만 입력 가능합니다."),
+    [TrainerFormKey.YEAR]: string().required("년도를 입력해주세요."),
+    [TrainerFormKey.MONTH]: string().required("월을 입력해주세요."),
     [TrainerFormKey.CERTIFICATIONS]: array().of(
       object().shape({
         name: string().required(),
@@ -40,5 +39,24 @@ const TrainerFormSchema = () => {
     ),
   });
 };
+const TrainerSchemaStep1 = () => {
+  return object().shape({
+    [TrainerFormKey.CATEGORY]: string()
+      .oneOf(exerciseList, "유효한 종목을 선택해주세요.")
+      .required("종목을 선택해 주세요."),
+    [TrainerFormKey.FIELD]: string().oneOf(fieldList, "유효한 분야를 선택해주세요.").required("분야를 선택해 주세요."),
+    [TrainerFormKey.COMMENT]: string().required("프로필 코멘트를 입력해주세요.").max(20, "최대 20자를 초과했습니다!"),
+  });
+};
 
-export default TrainerFormSchema;
+const TrainerSchemaStep3 = () => {
+  return object().shape({
+    [TrainerFormKey.COST]: string()
+      .required("비용을 입력해주세요.")
+      .matches(/^[0-9,]+$/, "숫자만 입력 가능합니다."),
+    [TrainerFormKey.YEAR]: string().required("년도를 입력해주세요."),
+    [TrainerFormKey.MONTH]: string().required("월을 입력해주세요."),
+  });
+};
+
+export { TrainerSchemaStep1, TrainerSchemaStep3 };

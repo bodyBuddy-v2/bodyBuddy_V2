@@ -16,4 +16,4 @@ export const TrainerFormKey = {
   YEAR: "year",
   MONTH: "month",
   CERTIFICATIONS: "certifications",
-};
+} as const;
