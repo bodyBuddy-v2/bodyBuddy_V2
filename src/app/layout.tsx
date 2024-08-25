@@ -1,5 +1,3 @@
-"use server";
-
 import { Providers } from "@/components";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Head from "next/head";
