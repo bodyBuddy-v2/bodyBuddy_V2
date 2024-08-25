@@ -1,4 +1,3 @@
-import { Providers } from "@/components";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import Head from "next/head";
 
@@ -16,9 +15,7 @@ export default function RootLayout({
           <link rel="icon" href="/favicon/favicon.ico" />
         </Head>
         <body>
-          <AntdRegistry>
-            <Providers>{children}</Providers>
-          </AntdRegistry>
+          <AntdRegistry>{children}</AntdRegistry>
         </body>
       </html>
     </>

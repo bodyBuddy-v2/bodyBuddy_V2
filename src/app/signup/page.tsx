@@ -3,7 +3,7 @@
 import React from "react";
 import { signIn } from "next-auth/react";
 import { Box } from "@mui/material";
-import { Typography } from "@/components";
+import { Typography } from "antd";
 
 const SignUp = () => {
   const handleSubmit = (name: string) => {
@@ -20,13 +20,9 @@ const SignUp = () => {
     <>
       <Box sx={{ height: "auto", position: "relative" }}>
         <Box display="flex" flexDirection="column" pt={10} pl={2} sx={{ fontSize: 30 }}>
-          <Typography variant="h2">
-            <Typography variant="body1" sx={{ fontSize: "58px", fontWeight: 500 }}>
-              가장 쉬운
-            </Typography>
-            <Typography variant="body1" color="primary" sx={{ fontSize: "58px", fontWeight: 500 }}>
-              트레이닝 시작
-            </Typography>
+          <Typography>
+            <Typography>가장 쉬운</Typography>
+            <Typography>트레이닝 시작</Typography>
           </Typography>
         </Box>
       </Box>
