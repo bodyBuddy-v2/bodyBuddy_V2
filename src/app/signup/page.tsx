@@ -1,11 +1,9 @@
 "use client";
+
 import React from "react";
 import { signIn } from "next-auth/react";
 import { Box } from "@mui/material";
-import { Button, Typography } from "@/components";
-import styled from "@emotion/styled";
-import KakaoLogo from "@/components/svg/KakaLog";
-import NaverLogo from "@/components/svg/NaverLogo";
+import { Typography } from "@/components";
 
 const SignUp = () => {
   const handleSubmit = (name: string) => {
@@ -31,12 +29,9 @@ const SignUp = () => {
             </Typography>
           </Typography>
         </Box>
-        <LeftSideCircle />
-        <Exercise />
-        <RightSideCircle />
       </Box>
       <Box display="flex" alignItems="center" flexDirection="column" mt={"auto"} pb={7}>
-        <Button
+        {/* <Button
           variant="contained"
           fullWidth
           size="large"
@@ -56,39 +51,10 @@ const SignUp = () => {
           onClick={() => handleSubmit("naver")}
         >
           네이버로 시작하기
-        </Button>
+        </Button> */}
       </Box>
     </>
   );
 };
-
-const Exercise = styled.div`
-  background-image: url("/assets/signUp/signUpExercise.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  height: 400px;
-`;
-const LeftSideCircle = styled.div`
-  position: absolute;
-  width: 60px;
-  height: 316px;
-  left: 0;
-  top: 190px;
-  background-image: url("/assets/signUp/leftSideCircle.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
-
-const RightSideCircle = styled.div`
-  position: absolute;
-  width: 102px;
-  height: 275px;
-  right: 0;
-  top: 0;
-  background-image: url("/assets/signUp/rightSideCircle.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
 
 export default SignUp;

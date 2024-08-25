@@ -2,7 +2,7 @@
 import React from "react";
 import { signIn } from "next-auth/react";
 import { Box } from "@mui/material";
-import { Button, Typography, KakaoLogo, NaverLogo } from "@/components";
+import { Typography } from "@/components";
 import Image from "next/image";
 
 const SignIn = () => {
@@ -25,7 +25,7 @@ const SignIn = () => {
       </Typography>
       <Box display="flex" alignItems="center" flexDirection="column" mt={"auto"} pb={7}>
         <Typography variant="subtitle2">SNS로 간편 로그인하세요!</Typography>
-        <Button
+        {/* <Button
           variant="contained"
           fullWidth
           size="large"
@@ -45,7 +45,7 @@ const SignIn = () => {
           onClick={() => handleSubmit("naver")}
         >
           네이버로 로그인하기
-        </Button>
+        </Button> */}
       </Box>
     </>
   );
