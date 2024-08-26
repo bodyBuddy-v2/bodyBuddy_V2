@@ -1,8 +1,5 @@
-"use client";
-import { SEO, Providers, StyledLayout, Theme } from "@/components";
-import { Container } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import Head from "next/head";
 
 export default function RootLayout({
   children,
@@ -11,17 +8,14 @@ export default function RootLayout({
 }>): JSX.Element {
   return (
     <>
-      <html lang="en">
-        <SEO />
+      <html lang="ko">
+        <Head>
+          <meta charSet="utf-8" />
+          <title>바디버디</title>
+          <link rel="icon" href="/favicon/favicon.ico" />
+        </Head>
         <body>
-          <Providers>
-            <ThemeProvider theme={Theme}>
-              <CssBaseline />
-              <Container maxWidth="sm">
-                <StyledLayout>{children}</StyledLayout>
-              </Container>
-            </ThemeProvider>
-          </Providers>
+          <AntdRegistry>{children}</AntdRegistry>
         </body>
       </html>
     </>
