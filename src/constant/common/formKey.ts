@@ -1,19 +1,21 @@
 export const UserFormKey = {
   NICKNAME: "nickname",
+  CELLPHONE: "cellPhone",
+  SEX: "sex",
+  AGE: "age",
   CITY: "city",
   DISTRICT: "district",
+  GOALS: "goals",
+  CATEGORY: "category",
 } as const;
 
 export const TrainerFormKey = {
+  NAME: "name",
+  CELLPHONE: "cellPhone",
+  SEX: "sex",
+  PROFILE: "profile",
   CATEGORY: "category",
   FIELD: "field",
-  RROFILEIMG: "profileImg",
-  COMMENT: "comment",
-  TRAININGNAME: "trainingName",
-  TRAININGIMG: "trainingImg",
-  TRAININGPATH: "trainingPath",
+  RROFILEIMGS: "profileImgs",
   COST: "cost",
-  YEAR: "year",
-  MONTH: "month",
-  CERTIFICATIONS: "certifications",
 } as const;
