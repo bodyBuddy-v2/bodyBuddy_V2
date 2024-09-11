@@ -1,62 +1,45 @@
 import { TrainerFormKey } from "@/constant/common/formKey";
-import { array, object, string } from "yup";
+import { array, object, string, number } from "yup";
 import { exerciseList, fieldList } from "@/constant/common/signup";
-
-const TrainerFormSchema = () => {
+export const TrainerFormSchema = () => {
   return object().shape({
+    [TrainerFormKey.NAME]: string()
+      .required("실명 혹은 활동명을 입력해 주세요.")
+      .max(5, "최소 2글자, 최대 5글자 입니다.")
+      .min(2, "최소 2글자, 최대 5글자 입니다."),
+    [TrainerFormKey.CELLPHONE]: string()
+      .required("휴대폰 번호를 입력해주세요")
+      .matches(/^010-\d{4}-\d{4}$/, "올바르지 않은 번호 형식입니다 "),
+    [TrainerFormKey.SEX]: string().required("성별을 선택해주세요."),
+    [TrainerFormKey.PROFILE]: string().required("소개를 입력해주세요").max(50, "50자 이내로 작성하세요."),
     [TrainerFormKey.CATEGORY]: string()
-      .oneOf(exerciseList, "유효한 종목을 선택해주세요.")
+      .oneOf(
+        exerciseList.map(({ value }) => value),
+        "유효한 종목을 선택해주세요.",
+      )
       .required("종목을 선택해 주세요."),
-    [TrainerFormKey.FIELD]: string().oneOf(fieldList, "유효한 분야를 선택해주세요.").required("분야를 선택해 주세요."),
-    // [TrainerFormKey.RROFILEIMG]: array()
-    //   .of(
-    //     object().shape({
-    //       File: mixed().required(),
-    //     }),
-    //   )
-    //   .required(),
-    [TrainerFormKey.COMMENT]: string().required("프로필 코멘트를 입력해주세요.").max(20, "최대 20자를 초과했습니다!"),
-    [TrainerFormKey.TRAININGNAME]: string().required(""),
-    [TrainerFormKey.TRAININGIMG]: array()
+    [TrainerFormKey.FIELD]: string()
+      .oneOf(
+        fieldList.map(({ value }) => value),
+        "유효한 분야를 선택해주세요.",
+      )
+      .required("분야를 선택해 주세요."),
+    [TrainerFormKey.RROFILEIMGS]: array()
       .of(
         object().shape({
+          uid: string().required(),
           name: string().required(),
-          url: string().required(),
+          size: number().required(),
+          type: string().required(),
+          status: string().oneOf(["uploading", "done", "error", "removed"]),
         }),
       )
-      .required(),
-    [TrainerFormKey.TRAININGPATH]: string(),
+      .required("사진을 최소 1장 업로드 해주세요.")
+      .min(1, "사진을 최소 1장 업로드 해주세요.")
+      .max(3, "최대 업로드 할 수 있는 개수를 초과했습니다."),
+
     [TrainerFormKey.COST]: string()
       .required("비용을 입력해주세요.")
       .matches(/^[0-9,]+$/, "숫자만 입력 가능합니다."),
-    [TrainerFormKey.YEAR]: string().required("년도를 입력해주세요."),
-    [TrainerFormKey.MONTH]: string().required("월을 입력해주세요."),
-    [TrainerFormKey.CERTIFICATIONS]: array().of(
-      object().shape({
-        name: string().required(),
-        url: string().required(),
-      }),
-    ),
   });
 };
-const TrainerSchemaStep1 = () => {
-  return object().shape({
-    [TrainerFormKey.CATEGORY]: string()
-      .oneOf(exerciseList, "유효한 종목을 선택해주세요.")
-      .required("종목을 선택해 주세요."),
-    [TrainerFormKey.FIELD]: string().oneOf(fieldList, "유효한 분야를 선택해주세요.").required("분야를 선택해 주세요."),
-    [TrainerFormKey.COMMENT]: string().required("프로필 코멘트를 입력해주세요.").max(20, "최대 20자를 초과했습니다!"),
-  });
-};
-
-const TrainerSchemaStep3 = () => {
-  return object().shape({
-    [TrainerFormKey.COST]: string()
-      .required("비용을 입력해주세요.")
-      .matches(/^[0-9,]+$/, "숫자만 입력 가능합니다."),
-    [TrainerFormKey.YEAR]: string().required("년도를 입력해주세요."),
-    [TrainerFormKey.MONTH]: string().required("월을 입력해주세요."),
-  });
-};
-
-export { TrainerSchemaStep1, TrainerSchemaStep3 };
