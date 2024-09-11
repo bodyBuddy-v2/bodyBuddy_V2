@@ -1,4 +1,4 @@
-type OptionValue = {
+export type OptionValue = {
   label: string;
   value: string;
 };
@@ -50,7 +50,7 @@ export const city: OptionValue[] = [
   { label: "충청북도", value: "충청북도" },
 ];
 
-type districtType = {
+export type districtType = {
   [index: string]: OptionValue[];
 };
 

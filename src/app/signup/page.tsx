@@ -2,8 +2,8 @@
 
 import React from "react";
 import { signIn } from "next-auth/react";
-import { Box } from "@mui/material";
-import { Typography } from "antd";
+import Link from "next/link";
+import { Space, Typography, Button } from "antd";
 
 const SignUp = () => {
   const handleSubmit = (name: string) => {
@@ -18,37 +18,53 @@ const SignUp = () => {
   };
   return (
     <>
-      <Box sx={{ height: "auto", position: "relative" }}>
-        <Box display="flex" flexDirection="column" pt={10} pl={2} sx={{ fontSize: 30 }}>
-          <Typography>
-            <Typography>가장 쉬운</Typography>
-            <Typography>트레이닝 시작</Typography>
-          </Typography>
-        </Box>
-      </Box>
-      <Box display="flex" alignItems="center" flexDirection="column" mt={"auto"} pb={7}>
-        {/* <Button
-          variant="contained"
-          fullWidth
+      <Space style={{ display: "flex", justifyContent: "center", flex: 1, padding: "52px" }}>
+        <Typography.Title level={1}>
+          <span>쉬운 1:1</span>
+          <br></br>
+          <span style={{ color: "#1677FF" }}>트레이닝</span> 의 시작
+        </Typography.Title>
+      </Space>
+      <Space direction="vertical" style={{ width: "100%", padding: "58px" }}>
+        <Typography style={{ color: "#7D7D7D", fontSize: "12px", textAlign: "center" }}>
+          혹시 강사님이신가요?
+          <Typography.Text underline style={{ color: "#7D7D7D", fontSize: "12px" }}>
+            <Link href="/signup/trainer" style={{ color: "#7D7D7D" }}>
+              강사님 가입
+            </Link>
+          </Typography.Text>
+        </Typography>
+        <Button
+          type="primary"
           size="large"
           name="Kakao"
-          sx={{ height: "50px", borderRadius: "12px", backgroundColor: "#FEE500", marginTop: "14px" }}
-          startIcon={<KakaoLogo />}
+          style={{
+            height: "50px",
+            width: "100%",
+            borderRadius: "12px",
+            backgroundColor: "#FEE500",
+            marginTop: "14px",
+          }}
           onClick={() => handleSubmit("kakao")}
         >
           카카오로 시작하기
         </Button>
         <Button
           name="naver"
-          fullWidth
-          sx={{ height: "50px", borderRadius: "12px", backgroundColor: "#4FA42B", marginTop: "10px" }}
-          startIcon={<NaverLogo />}
-          variant="contained"
+          type="primary"
+          size="large"
+          style={{
+            height: "50px",
+            width: "100%",
+            borderRadius: "12px",
+            backgroundColor: "#4FA42B",
+            marginTop: "10px",
+          }}
           onClick={() => handleSubmit("naver")}
         >
           네이버로 시작하기
-        </Button> */}
-      </Box>
+        </Button>
+      </Space>
     </>
   );
 };
