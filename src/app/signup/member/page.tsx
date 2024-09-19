@@ -22,16 +22,12 @@ interface StepProps {
   next?: () => void;
   prev?: () => void;
 }
-const { Title, Text } = Typography;
 
 const Step1 = ({ next }: StepProps) => {
   const {
     control,
-    formState: { errors, isValid },
-    watch,
+    formState: { errors },
   } = useFormContext<IMemberFormData>();
-  const watchedName = watch(UserFormKey.NICKNAME);
-  const watchedPhone = watch(UserFormKey.CELLPHONE);
 
   return (
     <>
@@ -42,18 +38,11 @@ const Step1 = ({ next }: StepProps) => {
           <>
             <Form.Item
               style={{ width: "100%" }}
-              validateStatus={errors[UserFormKey.NICKNAME] ? "error" : ""}
-              help={errors[UserFormKey.NICKNAME] ? errors[UserFormKey.NICKNAME]?.message : ""}
+              validateStatus={fieldState.error ? "error" : ""}
+              help={fieldState.error ? fieldState.error.message : ""}
             >
               <Typography>닉네임</Typography>
-              <Input
-                {...field}
-                placeholder="특수 문자 제외(2~5글자)"
-                id="nickname-input"
-                value={field.value}
-                onChange={field.onChange}
-                status={fieldState.error && "error"}
-              />
+              <Input {...field} placeholder="특수 문자 제외(2~5글자)" status={fieldState.error && "error"} />
             </Form.Item>
           </>
         )}
@@ -64,31 +53,18 @@ const Step1 = ({ next }: StepProps) => {
         render={({ field, fieldState }) => {
           return (
             <Form.Item
-              validateStatus={errors[UserFormKey.CELLPHONE] ? "error" : ""}
-              help={errors[UserFormKey.CELLPHONE] ? errors[UserFormKey.CELLPHONE]?.message : ""}
+              validateStatus={fieldState.error ? "error" : ""}
+              help={fieldState.error ? fieldState.error.message : ""}
             >
               <Typography>핸드폰 번호</Typography>
-              <Input
-                {...field}
-                placeholder="핸드폰 번호 입력"
-                id="nickname-input"
-                value={field.value}
-                onChange={field.onChange}
-                status={fieldState.error && "error"}
-                color={fieldState.error && "error"}
-              />
+              <Input {...field} placeholder="핸드폰 번호 입력" status={fieldState.error && "error"} />
             </Form.Item>
           );
         }}
       ></Controller>
       <Form.Item>
         <Button
-          disabled={
-            !watchedName.length ||
-            !watchedPhone.length ||
-            Boolean(errors[UserFormKey.NICKNAME]) ||
-            Boolean(errors[UserFormKey.CELLPHONE])
-          }
+          disabled={Boolean(errors[UserFormKey.NICKNAME]) || Boolean(errors[UserFormKey.CELLPHONE])}
           style={{ width: "100%" }}
           type="primary"
           size="large"
@@ -106,12 +82,8 @@ const Step2 = ({ next }: StepProps) => {
   const {
     control,
     formState: { errors },
-    watch,
   } = useFormContext<IMemberFormData>();
-  const [districtOptions, setDistrictOptions] = useState<OptionValue[] | null>([]);
-  const watchedAge = watch(UserFormKey.AGE);
-  const watchedCity = watch(UserFormKey.CITY);
-  const watchedDistrict = watch(UserFormKey.DISTRICT);
+  const [districtOptions, setDistrictOptions] = useState<OptionValue[]>([]);
 
   return (
     <>
@@ -122,8 +94,8 @@ const Step2 = ({ next }: StepProps) => {
           <Form.Item>
             <Typography> 성별 </Typography>
             <Radio.Group {...field}>
-              <Radio value="남성">남성</Radio>
-              <Radio value="여성">여성</Radio>
+              <Radio value="male">남성</Radio>
+              <Radio value="female">여성</Radio>
             </Radio.Group>
           </Form.Item>
         )}
@@ -134,19 +106,11 @@ const Step2 = ({ next }: StepProps) => {
         render={({ field, fieldState }) => {
           return (
             <Form.Item
-              validateStatus={errors[UserFormKey.AGE] ? "error" : ""}
-              help={errors[UserFormKey.AGE] ? errors[UserFormKey.AGE]?.message : ""}
+              validateStatus={fieldState.error ? "error" : ""}
+              help={fieldState.error ? fieldState.error.message : ""}
             >
               <Typography>나이</Typography>
-              <Input
-                {...field}
-                suffix="세"
-                placeholder="숫자만 입력가능"
-                id="nickname-input"
-                value={field.value}
-                onChange={field.onChange}
-                status={fieldState.error && "error"}
-              />
+              <Input {...field} suffix="세" placeholder="숫자만 입력가능" status={fieldState.error && "error"} />
             </Form.Item>
           );
         }}
@@ -160,8 +124,8 @@ const Step2 = ({ next }: StepProps) => {
           render={({ field, fieldState }) => (
             <Form.Item
               style={{ width: "100%" }}
-              validateStatus={errors[UserFormKey.CITY] ? "error" : ""}
-              help={errors[UserFormKey.CITY] ? errors[UserFormKey.CITY]?.message : ""}
+              validateStatus={fieldState.error ? "error" : ""}
+              help={fieldState.error ? fieldState.error.message : ""}
             >
               <Select
                 options={city}
@@ -183,8 +147,8 @@ const Step2 = ({ next }: StepProps) => {
           render={({ field, fieldState }) => (
             <Form.Item
               style={{ width: "100%" }}
-              validateStatus={errors[UserFormKey.DISTRICT] ? "error" : ""}
-              help={errors[UserFormKey.DISTRICT] ? errors[UserFormKey.DISTRICT]?.message : ""}
+              validateStatus={fieldState.error ? "error" : ""}
+              help={fieldState.error ? fieldState.error.message : ""}
             >
               <Select
                 style={{ minWidth: "160px" }}
@@ -200,9 +164,6 @@ const Step2 = ({ next }: StepProps) => {
       <Form.Item>
         <Button
           disabled={
-            !watchedAge.length ||
-            !watchedCity.length ||
-            !watchedDistrict.length ||
             Boolean(errors[UserFormKey.AGE]) ||
             Boolean(errors[UserFormKey.CITY]) ||
             Boolean(errors[UserFormKey.DISTRICT])
@@ -223,9 +184,8 @@ const Step2 = ({ next }: StepProps) => {
 const Step3 = ({ prev }: StepProps) => {
   const {
     control,
-    formState: { errors, isValid },
+    formState: { errors },
     watch,
-    handleSubmit,
   } = useFormContext<IMemberFormData>();
   const watchedGoals = watch(UserFormKey.GOALS);
   const watchedCategory = watch(UserFormKey.CATEGORY);
@@ -320,12 +280,12 @@ const SignMember = () => {
   const schema = signUpFormSchema();
 
   const formMethods = useForm<IMemberFormData>({
-    mode: "onChange",
+    mode: "onTouched",
     reValidateMode: "onChange",
     defaultValues: {
       [UserFormKey.NICKNAME]: "",
       [UserFormKey.CELLPHONE]: "",
-      [UserFormKey.SEX]: "남성",
+      [UserFormKey.SEX]: "male",
       [UserFormKey.AGE]: "",
       [UserFormKey.CITY]: "",
       [UserFormKey.DISTRICT]: "",
@@ -370,9 +330,7 @@ const SignMember = () => {
         <Typography.Text strong style={{ color: "#1677FF", fontSize: "30px" }}>
           STEP {currentStep}
         </Typography.Text>
-        <Typography.Text style={{ fontSize: "12px", color: "#7D7D7D" }}>
-          간단한 기본 정보를 입력해 주세요!
-        </Typography.Text>
+        <Typography.Text style={{ fontSize: "12px", color: "#7D7D7D" }}>{comments[currentStep]}</Typography.Text>
         <Flex vertical style={{ height: "100%" }}>
           <FormProvider {...formMethods}>
             <Form style={{ width: "100%" }} onFinish={formMethods.handleSubmit(handleSignUpClick)}>

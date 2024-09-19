@@ -13,7 +13,7 @@ export const signUpFormSchema = () => {
       .required("핸드폰 번호를 입력해주세요.")
       .matches(/^\d{3}-\d{4}-\d{4}$/, "핸드폰 번호 형식에 맞게 입력해주세요."),
     [UserFormKey.SEX]: string().required("성별을 선택해주세요."),
-    [UserFormKey.AGE]: string().required("나이를 입력해주세요"),
+    [UserFormKey.AGE]: string().required("나이를 입력해주세요").matches(/^\d+$/, "숫자만 입력해주세요."),
     [UserFormKey.CITY]: string()
       .required("[시/군/도]를 선택해 주세요")
       .oneOf(
