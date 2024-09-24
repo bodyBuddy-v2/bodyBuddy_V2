@@ -14,20 +14,18 @@ export const signUpFormSchema = () => {
       .matches(/^\d{3}-\d{4}-\d{4}$/, "핸드폰 번호 형식에 맞게 입력해주세요."),
     [UserFormKey.SEX]: string().required("성별을 선택해주세요."),
     [UserFormKey.AGE]: string().required("나이를 입력해주세요").matches(/^\d+$/, "숫자만 입력해주세요."),
-    [UserFormKey.CITY]: string()
-      .required("[시/군/도]를 선택해 주세요")
-      .oneOf(
-        city.map(({ value }) => value),
-        "유효한 지역을 선택해주세요.",
-      ),
-    [UserFormKey.DISTRICT]: string().test("required district info", "[시/군/도]를 선택해 주세요.", (value, ctx) => {
-      const { city } = ctx.parent;
+    [UserFormKey.CITY]: string().required("지역을 선택해 주세요").oneOf(city, "유효한 지역을 선택해주세요."),
+    [UserFormKey.DISTRICT]: string().test(
+      "required district info",
+      "지역을 선택해 주세요.", // 이 메시지가 에러 발생 시 출력됨
+      (value, ctx) => {
+        const { city } = ctx.parent;
+        if (!city) return true; // city가 없으면 district 체크 안 함
 
-      if (!value) return;
-      console.log(Boolean(city) && !!value.length);
-      // city가 존재하면, district도 존재해야 함
-      return Boolean(city) && !!value.length;
-    }), //다른 영역 들어오는 테스틀 쓸 때 벨리데이션 체크
+        const isValid = value !== undefined && value !== null && value.trim() !== "";
+        return isValid;
+      },
+    ),
     [UserFormKey.GOALS]: array()
       .of(string().required("운동 목적을 선택해주세요."))
       .min(1, "최소 한개의 목적을 선택해주세요.")
