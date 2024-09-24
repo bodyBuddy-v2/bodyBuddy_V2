@@ -5,7 +5,7 @@ import { useForm, Controller, FormProvider, useFormContext } from "react-hook-fo
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserFormKey } from "@/constant/common/formKey";
 import { signUpFormSchema } from "@/schema/signup/signUpFormSchema";
-import { district, city, exerciseList, fieldList, type OptionValue } from "@/constant/common/signup";
+import { district, city, exerciseList, fieldList } from "@/constant/common/signup";
 
 interface IMemberFormData {
   [UserFormKey.NICKNAME]: string;
@@ -19,15 +19,19 @@ interface IMemberFormData {
 }
 
 interface StepProps {
-  next?: () => void;
+  next: () => void;
   prev?: () => void;
 }
+const { Option } = Select;
 
 const Step1 = ({ next }: StepProps) => {
   const {
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
+    trigger,
   } = useFormContext<IMemberFormData>();
+
+  const checkErrorsStep1 = !!errors[UserFormKey.NICKNAME] || !!errors[UserFormKey.CELLPHONE];
 
   return (
     <>
@@ -64,12 +68,13 @@ const Step1 = ({ next }: StepProps) => {
       ></Controller>
       <Form.Item>
         <Button
-          disabled={Boolean(errors[UserFormKey.NICKNAME]) || Boolean(errors[UserFormKey.CELLPHONE])}
           style={{ width: "100%" }}
           type="primary"
           size="large"
-          onClick={next}
-          htmlType="submit"
+          onClick={() => {
+            if (checkErrorsStep1 || !isDirty) return;
+            next();
+          }}
         >
           다음
         </Button>
@@ -81,9 +86,15 @@ const Step1 = ({ next }: StepProps) => {
 const Step2 = ({ next }: StepProps) => {
   const {
     control,
-    formState: { errors },
+    setValue,
+    formState: { errors, dirtyFields },
+    trigger,
   } = useFormContext<IMemberFormData>();
-  const [districtOptions, setDistrictOptions] = useState<OptionValue[]>([]);
+  const [districtOptions, setDistrictOptions] = useState<string[]>([]);
+
+  const checkErrorsStep2 = !!errors[UserFormKey.AGE] || !!errors[UserFormKey.CITY] || !!errors[UserFormKey.DISTRICT];
+  const checkDirtyStep2 =
+    (!!dirtyFields[UserFormKey.AGE] && !!dirtyFields[UserFormKey.CITY]) || !!dirtyFields[UserFormKey.DISTRICT];
 
   return (
     <>
@@ -128,16 +139,23 @@ const Step2 = ({ next }: StepProps) => {
               help={fieldState.error ? fieldState.error.message : ""}
             >
               <Select
-                options={city}
                 style={{ minWidth: "160px" }}
                 ref={field.ref}
                 placeholder="지역"
-                onChange={(value: string) => {
-                  setDistrictOptions(district[value]);
+                onChange={async (value: string) => {
                   field.onChange(value);
+                  setDistrictOptions([...district[value]]);
+                  setValue(UserFormKey.DISTRICT, "");
+                  await trigger(UserFormKey.DISTRICT);
                 }}
                 status={fieldState.error && "error"}
-              />
+              >
+                {city.map((option: string) => (
+                  <Option key={option} value={option}>
+                    {option}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           )}
         ></Controller>
@@ -152,27 +170,30 @@ const Step2 = ({ next }: StepProps) => {
             >
               <Select
                 style={{ minWidth: "160px" }}
-                options={districtOptions}
                 placeholder="시/군"
+                value={field.value || undefined}
                 onChange={field.onChange}
                 status={fieldState.error && "error"}
-              />
+              >
+                {districtOptions.map((option: string) => (
+                  <Option key={option} value={option}>
+                    {option}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           )}
         />
       </Flex>
       <Form.Item>
         <Button
-          disabled={
-            Boolean(errors[UserFormKey.AGE]) ||
-            Boolean(errors[UserFormKey.CITY]) ||
-            Boolean(errors[UserFormKey.DISTRICT])
-          }
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
-          onClick={next}
-          htmlType="submit"
+          onClick={() => {
+            if (!checkDirtyStep2 || checkErrorsStep2) return;
+            next();
+          }}
         >
           다음
         </Button>
@@ -185,10 +206,9 @@ const Step3 = ({ prev }: StepProps) => {
   const {
     control,
     formState: { errors },
-    watch,
   } = useFormContext<IMemberFormData>();
-  const watchedGoals = watch(UserFormKey.GOALS);
-  const watchedCategory = watch(UserFormKey.CATEGORY);
+
+  const checkErrorsStep3 = !!errors[UserFormKey.GOALS] || !!errors[UserFormKey.CATEGORY];
 
   return (
     <>
@@ -250,12 +270,7 @@ const Step3 = ({ prev }: StepProps) => {
       </Space>
       <Form.Item>
         <Button
-          disabled={
-            !watchedGoals.length ||
-            !watchedCategory.length ||
-            Boolean(errors[UserFormKey.GOALS]) ||
-            Boolean(errors[UserFormKey.CATEGORY])
-          }
+          disabled={checkErrorsStep3}
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
@@ -280,7 +295,7 @@ const SignMember = () => {
   const schema = signUpFormSchema();
 
   const formMethods = useForm<IMemberFormData>({
-    mode: "onTouched",
+    mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
       [UserFormKey.NICKNAME]: "",
@@ -310,7 +325,7 @@ const SignMember = () => {
         return <Step2 prev={prevStep} next={nextStep} />;
 
       case 3:
-        return <Step3 prev={prevStep} />;
+        return <Step3 prev={prevStep} next={handleSignUpClick} />;
       default:
         return <Step1 {...formMethods} next={nextStep} />;
     }

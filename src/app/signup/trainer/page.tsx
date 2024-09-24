@@ -28,14 +28,14 @@ interface StepProps {
 const Step1 = ({ next }: StepProps) => {
   const {
     control,
-    watch,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useFormContext<ITrainerFormData>();
-  const watchedName = watch(TrainerFormKey.NAME);
-  const watchedPhone = watch(TrainerFormKey.CELLPHONE);
-  const watchedSex = watch(TrainerFormKey.SEX);
-  const watchedProfile = watch(TrainerFormKey.PROFILE);
-
+  const checkErrorsStep1 =
+    !!errors[TrainerFormKey.NAME] ||
+    !!errors[TrainerFormKey.CELLPHONE] ||
+    !!errors[TrainerFormKey.SEX] ||
+    !!errors[TrainerFormKey.PROFILE];
+  const checkDirtyStep1 = !!dirtyFields[TrainerFormKey.NAME] && !!dirtyFields[TrainerFormKey.CELLPHONE];
   return (
     <>
       <Controller
@@ -92,8 +92,8 @@ const Step1 = ({ next }: StepProps) => {
           <Form.Item style={{ width: "100%" }}>
             <Typography> 성별 </Typography>
             <Radio.Group {...field}>
-              <Radio value="남성">남성</Radio>
-              <Radio value="여성">여성</Radio>
+              <Radio value="male">남성</Radio>
+              <Radio value="female">여성</Radio>
             </Radio.Group>
           </Form.Item>
         )}
@@ -123,20 +123,14 @@ const Step1 = ({ next }: StepProps) => {
       ></Controller>
       <Form.Item>
         <Button
-          disabled={
-            !watchedName.length ||
-            !watchedPhone.length ||
-            !watchedSex.length ||
-            !watchedProfile.length ||
-            Boolean(errors[TrainerFormKey.NAME]) ||
-            Boolean(errors[TrainerFormKey.CELLPHONE]) ||
-            Boolean(errors[TrainerFormKey.SEX]) ||
-            Boolean(errors[TrainerFormKey.PROFILE])
-          }
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
-          onClick={next}
+          onClick={() => {
+            console.log(checkDirtyStep1 || checkErrorsStep1);
+            if (!checkDirtyStep1 || checkErrorsStep1) return;
+            next();
+          }}
           htmlType="submit"
         >
           다음
@@ -146,18 +140,23 @@ const Step1 = ({ next }: StepProps) => {
   );
 };
 
-const Step2 = ({ next, prev }: StepProps) => {
+const Step2 = () => {
   const {
     control,
     watch,
-    handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, dirtyFields },
   } = useFormContext<ITrainerFormData>();
 
-  const watchedCategory = watch(TrainerFormKey.CATEGORY);
-  const watchedField = watch(TrainerFormKey.FIELD);
-  const watchedProfileImgs = watch(TrainerFormKey.RROFILEIMGS);
-  const watchedCost = watch(TrainerFormKey.COST);
+  const checkErrorsStep2 =
+    !!errors[TrainerFormKey.CATEGORY] ||
+    !!errors[TrainerFormKey.FIELD] ||
+    !!errors[TrainerFormKey.RROFILEIMGS] ||
+    !!errors[TrainerFormKey.COST];
+  const checkDirtyStep2 =
+    !!dirtyFields[TrainerFormKey.CATEGORY] &&
+    !!dirtyFields[TrainerFormKey.FIELD] &&
+    !!dirtyFields[TrainerFormKey.RROFILEIMGS] &&
+    !!dirtyFields[TrainerFormKey.COST];
 
   type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -201,6 +200,7 @@ const Step2 = ({ next, prev }: StepProps) => {
             >
               <Select
                 options={exerciseList}
+                value={field.value || undefined}
                 style={{ minWidth: "160px" }}
                 placeholder="종목"
                 onChange={field.onChange}
@@ -220,6 +220,7 @@ const Step2 = ({ next, prev }: StepProps) => {
             >
               <Select
                 options={fieldList}
+                value={field.value || undefined}
                 placeholder="분야"
                 style={{ minWidth: "160px" }}
                 onChange={field.onChange}
@@ -232,7 +233,7 @@ const Step2 = ({ next, prev }: StepProps) => {
       <Controller
         name={TrainerFormKey.RROFILEIMGS}
         control={control}
-        render={({ field, fieldState }) => {
+        render={({ field }) => {
           return (
             <Form.Item
               validateStatus={errors[TrainerFormKey.RROFILEIMGS] ? "error" : ""}
@@ -298,19 +299,12 @@ const Step2 = ({ next, prev }: StepProps) => {
         <Form.Item style={{ width: "100%" }}>
           <Button
             type="primary"
-            disabled={
-              !watchedField.length ||
-              !watchedCategory.length ||
-              !watchedProfileImgs.length ||
-              !watchedCost.length ||
-              Boolean(errors[TrainerFormKey.FIELD]) ||
-              Boolean(errors[TrainerFormKey.CATEGORY]) ||
-              Boolean(errors[TrainerFormKey.RROFILEIMGS]) ||
-              Boolean(errors[TrainerFormKey.COST])
-            }
             style={{ paddingTop: "auto", width: "100%" }}
             size="large"
             htmlType="submit"
+            onClick={() => {
+              if (!checkDirtyStep2 || checkErrorsStep2) return;
+            }}
           >
             회원가입 완료
           </Button>
@@ -338,7 +332,7 @@ const SignTrainer = () => {
     defaultValues: {
       [TrainerFormKey.NAME]: "",
       [TrainerFormKey.CELLPHONE]: "",
-      [TrainerFormKey.SEX]: "남성",
+      [TrainerFormKey.SEX]: "male",
       [TrainerFormKey.PROFILE]: "",
       [TrainerFormKey.CATEGORY]: "",
       [TrainerFormKey.COST]: "",
@@ -353,7 +347,7 @@ const SignTrainer = () => {
       case 1:
         return <Step1 next={nextStep} />;
       case 2:
-        return <Step2 prev={prevStep} next={nextStep} />;
+        return <Step2 />;
       default:
         return <Step1 {...formMethods} next={nextStep} />;
     }
