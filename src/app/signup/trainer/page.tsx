@@ -20,6 +20,7 @@ export interface ITrainerFormData {
   [TrainerFormKey.COST]: string;
   [TrainerFormKey.RROFILEIMGS]: UploadFile[];
 }
+
 interface StepProps {
   next: () => void;
   prev?: () => void;
@@ -29,6 +30,7 @@ const Step1 = ({ next }: StepProps) => {
   const {
     control,
     formState: { errors, dirtyFields },
+    trigger,
   } = useFormContext<ITrainerFormData>();
   const checkErrorsStep1 =
     !!errors[TrainerFormKey.NAME] ||
@@ -126,10 +128,17 @@ const Step1 = ({ next }: StepProps) => {
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
-          onClick={() => {
-            console.log(checkDirtyStep1 || checkErrorsStep1);
-            if (!checkDirtyStep1 || checkErrorsStep1) return;
-            next();
+          onClick={async () => {
+            if (checkDirtyStep1 && !checkErrorsStep1) {
+              next();
+              return;
+            }
+            if (dirtyFields[TrainerFormKey.NAME]) {
+              await trigger(TrainerFormKey.NAME);
+            }
+            if (dirtyFields[TrainerFormKey.CELLPHONE]) {
+              await trigger(TrainerFormKey.CELLPHONE);
+            }
           }}
           htmlType="submit"
         >
@@ -143,7 +152,6 @@ const Step1 = ({ next }: StepProps) => {
 const Step2 = () => {
   const {
     control,
-    watch,
     formState: { errors, dirtyFields },
   } = useFormContext<ITrainerFormData>();
 
@@ -301,7 +309,6 @@ const Step2 = () => {
             type="primary"
             style={{ paddingTop: "auto", width: "100%" }}
             size="large"
-            htmlType="submit"
             onClick={() => {
               if (!checkDirtyStep2 || checkErrorsStep2) return;
             }}

@@ -5,7 +5,7 @@ import { useForm, Controller, FormProvider, useFormContext } from "react-hook-fo
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserFormKey } from "@/constant/common/formKey";
 import { signUpFormSchema } from "@/schema/signup/signUpFormSchema";
-import { district, city, exerciseList, fieldList } from "@/constant/common/signup";
+import { city, district, exerciseList, fieldList } from "@/constant/common/signup";
 
 interface IMemberFormData {
   [UserFormKey.NICKNAME]: string;
@@ -17,21 +17,36 @@ interface IMemberFormData {
   [UserFormKey.GOALS]: string[];
   [UserFormKey.CATEGORY]: string[];
 }
+export type UserFormKeyType = (typeof UserFormKey)[keyof typeof UserFormKey];
 
 interface StepProps {
   next: () => void;
   prev?: () => void;
 }
+
+const triggerDirtyFields = async (
+  dirtyFields: Partial<Record<UserFormKeyType, boolean>>,
+  trigger: (field: UserFormKeyType) => Promise<boolean>,
+  fields: UserFormKeyType[],
+) => {
+  for (const field of fields) {
+    if (!dirtyFields[field]) {
+      await trigger(field);
+    }
+  }
+};
 const { Option } = Select;
 
 const Step1 = ({ next }: StepProps) => {
   const {
     control,
-    formState: { errors, isDirty },
+    formState: { errors, dirtyFields },
     trigger,
   } = useFormContext<IMemberFormData>();
 
   const checkErrorsStep1 = !!errors[UserFormKey.NICKNAME] || !!errors[UserFormKey.CELLPHONE];
+  const checkDirtyStep1 = !!dirtyFields[UserFormKey.NICKNAME] && !!dirtyFields[UserFormKey.CELLPHONE];
+  const fieldsToTrigger = [UserFormKey.NICKNAME, UserFormKey.CELLPHONE];
 
   return (
     <>
@@ -71,9 +86,17 @@ const Step1 = ({ next }: StepProps) => {
           style={{ width: "100%" }}
           type="primary"
           size="large"
-          onClick={() => {
-            if (checkErrorsStep1 || !isDirty) return;
-            next();
+          onClick={async () => {
+            if (checkDirtyStep1 && !checkErrorsStep1) {
+              next();
+              return;
+            }
+
+            await triggerDirtyFields(
+              dirtyFields as Partial<Record<(typeof fieldsToTrigger)[number], boolean>>,
+              trigger,
+              fieldsToTrigger,
+            );
           }}
         >
           다음
@@ -95,6 +118,7 @@ const Step2 = ({ next }: StepProps) => {
   const checkErrorsStep2 = !!errors[UserFormKey.AGE] || !!errors[UserFormKey.CITY] || !!errors[UserFormKey.DISTRICT];
   const checkDirtyStep2 =
     (!!dirtyFields[UserFormKey.AGE] && !!dirtyFields[UserFormKey.CITY]) || !!dirtyFields[UserFormKey.DISTRICT];
+  const fieldsToTrigger = [UserFormKey.AGE, UserFormKey.CITY, UserFormKey.DISTRICT];
 
   return (
     <>
@@ -142,11 +166,9 @@ const Step2 = ({ next }: StepProps) => {
                 style={{ minWidth: "160px" }}
                 ref={field.ref}
                 placeholder="지역"
-                onChange={async (value: string) => {
+                onChange={(value: string) => {
                   field.onChange(value);
                   setDistrictOptions([...district[value]]);
-                  setValue(UserFormKey.DISTRICT, "");
-                  await trigger(UserFormKey.DISTRICT);
                 }}
                 status={fieldState.error && "error"}
               >
@@ -190,9 +212,17 @@ const Step2 = ({ next }: StepProps) => {
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
-          onClick={() => {
-            if (!checkDirtyStep2 || checkErrorsStep2) return;
-            next();
+          onClick={async () => {
+            if (checkDirtyStep2 && !checkErrorsStep2) {
+              next();
+              return;
+            }
+
+            await triggerDirtyFields(
+              dirtyFields as Partial<Record<(typeof fieldsToTrigger)[number], boolean>>,
+              trigger,
+              fieldsToTrigger,
+            );
           }}
         >
           다음
