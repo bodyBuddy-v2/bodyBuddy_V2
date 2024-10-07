@@ -1,23 +1,41 @@
 import { UserFormKey } from "@/constant/common/formKey";
-import { object, string } from "yup";
+import { array, object, string } from "yup";
+import { city, type SexType } from "@/constant/common/signup";
 
-const signUpFormSchema = () => {
+export const signUpFormSchema = () => {
   return object().shape({
     [UserFormKey.NICKNAME]: string()
       .required("닉네임을 입력해 주세요.")
       .max(5, "최소 2글자, 최대 5글자 입니다.")
       .min(2, "최소 2글자, 최대 5글자 입니다.")
       .matches(/^[a-zA-Z\ㄱ-ㅎ|가-힣]+$/, "특수 문자와 공백을 제거한 영문/한글만 입력이 가능합니다."),
-    [UserFormKey.CITY]: string().required("관심 지역을 선택해 주세요."),
-    [UserFormKey.DISTRICT]: string().test("required district info", "시/군/구를 선택해 주세요.", (value, ctx) => {
-      const { city } = ctx.parent;
 
-      if (!value) return;
-      console.log(Boolean(city) && !!value.length);
-      // city가 존재하면, district도 존재해야 함
-      return Boolean(city) && !!value.length;
-    }), //다른 영역 들어오는 테스틀 쓸 때 벨리데이션 체크    true 면 통과 ,false 면 시/군/구 선택 메세지를 필드 스테이트에 표기
+    [UserFormKey.CELLPHONE]: string()
+      .required("핸드폰 번호를 입력해주세요.")
+      .matches(/^\d{3}-\d{4}-\d{4}$/, "핸드폰 번호 형식에 맞게 입력해주세요."),
+
+    [UserFormKey.SEX]: string().required("성별을 선택해주세요.").oneOf<SexType>(["male", "female"]),
+    [UserFormKey.AGE]: string().required("나이를 입력해주세요.").matches(/^\d+$/, "숫자만 입력해주세요."),
+
+    [UserFormKey.CITY]: string().required("지역을 선택해 주세요.").oneOf(city, "유효한 지역을 선택해주세요."),
+
+    [UserFormKey.DISTRICT]: string()
+      .required()
+      .test("required district info", "지역을 선택해 주세요.", (value, ctx) => {
+        const { city } = ctx.parent;
+        if (!city) return true; // city가 없으면 district 체크 안 함
+        return value && value.trim() !== "";
+      }),
+    [UserFormKey.GOALS]: array()
+      .required()
+      .of(string().required("운동 목적을 선택해주세요."))
+      .min(1, "최소 한개의 목적을 선택해주세요.")
+      .max(2, "최대 선택할 수 있는 개수를 초과했습니다."),
+
+    [UserFormKey.CATEGORY]: array()
+      .required()
+      .of(string().required("관심 종목을 선택해주세요."))
+      .min(1, "최소 한개의 종목을 선택해주세요.")
+      .max(3, "최대 선택할 수 있는 개수를 초과했습니다."),
   });
 };
-
-export default signUpFormSchema;
