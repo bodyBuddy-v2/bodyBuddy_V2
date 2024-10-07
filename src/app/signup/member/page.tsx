@@ -5,12 +5,12 @@ import { useForm, Controller, FormProvider, useFormContext } from "react-hook-fo
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserFormKey } from "@/constant/common/formKey";
 import { signUpFormSchema } from "@/schema/signup/signUpFormSchema";
-import { city, district, exerciseList, fieldList } from "@/constant/common/signup";
+import { city, district, exerciseList, fieldList, type SexType } from "@/constant/common/signup";
 
 interface IMemberFormData {
   [UserFormKey.NICKNAME]: string;
   [UserFormKey.CELLPHONE]: string;
-  [UserFormKey.SEX]: string;
+  [UserFormKey.SEX]: SexType;
   [UserFormKey.AGE]: string;
   [UserFormKey.CITY]: string;
   [UserFormKey.DISTRICT]: string;

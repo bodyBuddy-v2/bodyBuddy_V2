@@ -5,7 +5,7 @@ import { useForm, useFormContext, Controller, FormProvider } from "react-hook-fo
 import { TrainerFormKey } from "@/constant/common/formKey";
 import { Input, Typography, Select, Button, Radio, Space, Form, Flex, Image, Upload } from "antd";
 import { TrainerFormSchema } from "@/schema/signup/TrainerFormSchema";
-import { exerciseList, fieldList } from "@/constant/common/signup";
+import { exerciseList, fieldList, type SexType } from "@/constant/common/signup";
 import type { GetProp, UploadFile, UploadProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 // import { type ImageFile } from "@/components/common/Input/types";
@@ -13,7 +13,7 @@ import { PlusOutlined } from "@ant-design/icons";
 export interface ITrainerFormData {
   [TrainerFormKey.NAME]: string;
   [TrainerFormKey.CELLPHONE]: string;
-  [TrainerFormKey.SEX]: string;
+  [TrainerFormKey.SEX]: SexType;
   [TrainerFormKey.PROFILE]: string;
   [TrainerFormKey.CATEGORY]: string;
   [TrainerFormKey.FIELD]: string;
