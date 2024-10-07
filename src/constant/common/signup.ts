@@ -3,6 +3,8 @@ export type OptionValue = {
   value: string;
 };
 
+export type SexType = "female" | "male";
+
 export const exerciseList: OptionValue[] = [
   { label: "PT", value: "PT" },
   { label: "필라테스", value: "필라테스" },
