@@ -12,7 +12,8 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "no-console": "off", // console.log 사용 금지
+    "no-console": "warn",
+    "no-unsafe-*": "off",
     "re-export-sort/exports": "error",
     "simple-import-sort/imports": [
       "error",
@@ -20,11 +21,7 @@
         "groups": [
           ["^next", "^react", "^redux", "axios", "^\\w"],
           ["@tanstack", "@reduxjs", "@emotion", "@mui", "^@\\w", "@kep"],
-          [
-            "@components",
-            "@schemas",
-            "@constants"
-          ],
+          ["@components", "@schemas", "@constants"],
           ["^[./]"],
           ["^.+\\.styled$"],
           [
@@ -53,7 +50,6 @@
         ]
       }
     ],
-    "unused-imports/no-unused-imports": "error",
     "react/display-name": "off",
     "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/no-unused-vars": "off", //위에서 error 처리해주고 있음
