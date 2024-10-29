@@ -43,7 +43,7 @@ const triggerDirtyFields = async (
   }
 };
 
-const SignMember = () => {
+const SignMemberPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const schema = signUpFormSchema();
@@ -100,4 +100,4 @@ const SignMember = () => {
   );
 };
 
-export default SignMember;
+export default SignMemberPage;
