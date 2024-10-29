@@ -1,13 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, useFormContext, Controller, FormProvider } from "react-hook-form";
-import { TrainerFormKey } from "@/constant/common/formKey";
-import { Input, Typography, Select, Button, Radio, Space, Form, Flex, Image, Upload } from "antd";
-import { TrainerFormSchema } from "@/schema/signup/TrainerFormSchema";
-import { exerciseList, fieldList, type SexType } from "@/constant/common/signup";
-import type { GetProp, UploadFile, UploadProps } from "antd";
+import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { Button, Flex, Form, Image, Input, Radio, Select, Space, Typography, Upload } from "antd";
+
 import { PlusOutlined } from "@ant-design/icons";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { TrainerFormSchema } from "@schemas/signup/TrainerFormSchema";
+import { TrainerFormKey } from "@constants/common/formKey";
+import { exerciseList, fieldList, type SexType } from "@constants/common/signup";
+
+import type { GetProp, UploadFile, UploadProps } from "antd";
 // import { type ImageFile } from "@/components/common/Input/types";
 
 export interface ITrainerFormData {
