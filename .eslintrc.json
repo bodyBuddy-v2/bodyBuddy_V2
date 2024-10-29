@@ -5,7 +5,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
-  "plugins": ["re-export-sort", "unused-imports", "@typescript-eslint"],
+  "plugins": ["re-export-sort", "unused-imports", "@typescript-eslint", "unused-imports", "simple-import-sort"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -14,6 +14,46 @@
     "prettier/prettier": "error",
     "no-console": "off", // console.log 사용 금지
     "re-export-sort/exports": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^next", "^react", "^redux", "axios", "^\\w"],
+          ["@tanstack", "@reduxjs", "@emotion", "@mui", "^@\\w", "@kep"],
+          [
+            "@components",
+            "@schemas",
+            "@constants"
+          ],
+          ["^[./]"],
+          ["^.+\\.styled$"],
+          [
+            "^next.*\\u0000$",
+            "^react.*\\u0000$",
+            "^redux.*\\u0000$",
+            "^axios.*\\u0000$",
+            "@tanstack.*\\u0000$",
+            "@reduxjs.*\\u0000$",
+            "@emotion.*\\u0000$",
+            "@kep.*\\u0000$",
+            "^@?\\w.*\\u0000$",
+            "@env.*\\u0000$",
+            "@templates.*\\u0000$",
+            "@components.*\\u0000$",
+            "@modals.*\\u0000$",
+            "@store.*\\u0000$",
+            "@hooks.*\\u0000$",
+            "@utils.*\\u0000$",
+            "@api.*\\u0000$",
+            "@schemas.*\\u0000$",
+            "@constants.*\\u0000$",
+            "^[^.].*\\u0000$",
+            "^\\..*\\u0000$"
+          ]
+        ]
+      }
+    ],
+    "unused-imports/no-unused-imports": "error",
     "react/display-name": "off",
     "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/no-unused-vars": "off", //위에서 error 처리해주고 있음
@@ -26,11 +66,6 @@
         "checksVoidReturn": false
       }
     ],
-    /* next-Auth 확인*/
-    // "@typescript-eslint/no-misused-promises": "off",
-    // "@typescript-eslint/no-unsafe-assignment": "off",
-    // "@typescript-eslint/require-await": "off",
-    /* 여기까지 삭제*/
     "unused-imports/no-unused-vars": [
       "warn",
       {
