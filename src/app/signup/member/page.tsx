@@ -6,10 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpFormSchema } from "@schemas/signup/signUpFormSchema";
 import { UserFormKey } from "@constants/common/formKey";
 
-import MemberSignUpLayout from "./layout";
-import Step1 from "./step1";
-import Step2 from "./step2";
-import Step3 from "./step3";
+import MemberSignUpLayout from "./_layout";
+import Step1 from "./_step1";
+import Step2 from "./_step2";
+import Step3 from "./_step3";
 
 import type { SexType } from "@constants/common/signup";
 
