@@ -1,6 +1,8 @@
-import { UserFormKey } from "@/constant/common/formKey";
 import { array, object, string } from "yup";
-import { city, type SexType } from "@/constant/common/signup";
+
+import { UserFormKey } from "@constants/common/formKey";
+
+import type { city, SexType } from "@constants/common/signup";
 
 export const signUpFormSchema = () => {
   return object().shape({

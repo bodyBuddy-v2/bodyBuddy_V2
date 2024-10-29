@@ -1,7 +1,9 @@
-import { TrainerFormKey } from "@/constant/common/formKey";
 import { array, object, string } from "yup";
+
+import { TrainerFormKey } from "@constants/common/formKey";
+import { exerciseList, fieldList, type SexType } from "@constants/common/signup";
+
 import type { UploadFile } from "antd";
-import { exerciseList, fieldList, type SexType } from "@/constant/common/signup";
 export const TrainerFormSchema = () => {
   return object().shape({
     [TrainerFormKey.NAME]: string()
