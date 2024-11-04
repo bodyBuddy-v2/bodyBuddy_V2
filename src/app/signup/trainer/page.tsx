@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { TrainerFormSchema } from "@schemas/signup/TrainerFormSchema";
 import { TrainerFormKey } from "@constants/common/formKey";
-import { type SexType } from "@constants/common/signup";
+import { CategoryList, GoalsList, SexType } from "@constants/common/signup";
 
 import TrainerSignUpLayout from "./_layout";
 // import { type ImageFile } from "@/components/common/Input/types";
@@ -19,10 +19,11 @@ export interface ITrainerFormData {
   [TrainerFormKey.NAME]: string;
   [TrainerFormKey.CELLPHONE]: string;
   [TrainerFormKey.SEX]: SexType;
-  [TrainerFormKey.PROFILE]: string;
+  [TrainerFormKey.PROFILE]?: string;
   [TrainerFormKey.CITY]: string;
   [TrainerFormKey.DISTRICT]: string;
-  [TrainerFormKey.FIELD]: string;
+  [TrainerFormKey.CATEGORY]: CategoryList;
+  [TrainerFormKey.FIELD]: GoalsList;
   [TrainerFormKey.COST]: string;
   [TrainerFormKey.RROFILEIMGS]: UploadFile[];
 }
@@ -46,11 +47,12 @@ const SignTrainer = () => {
       [TrainerFormKey.CELLPHONE]: "",
       [TrainerFormKey.SEX]: "male",
       [TrainerFormKey.PROFILE]: "",
-      [TrainerFormKey.CATEGORY]: "",
+      [TrainerFormKey.CITY]: "",
+      [TrainerFormKey.DISTRICT]: "",
       [TrainerFormKey.COST]: "",
-      [TrainerFormKey.FIELD]: "",
       [TrainerFormKey.RROFILEIMGS]: [],
     },
+
     resolver: yupResolver(schema),
   });
 

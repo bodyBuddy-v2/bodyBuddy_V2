@@ -184,12 +184,12 @@ const Step1 = ({ next }: StepProps) => {
               next();
               return;
             }
-            if (dirtyFields[TrainerFormKey.NAME]) {
-              await trigger(TrainerFormKey.NAME);
-            }
-            if (dirtyFields[TrainerFormKey.CELLPHONE]) {
-              await trigger(TrainerFormKey.CELLPHONE);
-            }
+            await trigger([
+              TrainerFormKey.NAME,
+              TrainerFormKey.CELLPHONE,
+              TrainerFormKey.CITY,
+              TrainerFormKey.DISTRICT,
+            ]);
           }}
           htmlType="submit"
         >
