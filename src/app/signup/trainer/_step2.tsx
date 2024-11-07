@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Button, Flex, Form, Image, Input, Select, Typography, Upload } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
+import { formatNumberWithComma } from "@utils";
 
 import { TrainerFormKey } from "@constants/common/formKey";
 import { exerciseList, fieldList } from "@constants/common/signup";
@@ -14,18 +15,18 @@ const Step2 = () => {
   const {
     control,
     formState: { errors, dirtyFields },
+    trigger,
   } = useFormContext<ITrainerFormData>();
 
-  const checkErrorsStep2 =
-    !!errors[TrainerFormKey.CATEGORY] ||
-    !!errors[TrainerFormKey.FIELD] ||
-    !!errors[TrainerFormKey.RROFILEIMGS] ||
-    !!errors[TrainerFormKey.COST];
-  const checkDirtyStep2 =
-    !!dirtyFields[TrainerFormKey.CATEGORY] &&
-    !!dirtyFields[TrainerFormKey.FIELD] &&
-    !!dirtyFields[TrainerFormKey.RROFILEIMGS] &&
-    !!dirtyFields[TrainerFormKey.COST];
+  const keysToCheckStep2 = [
+    TrainerFormKey.CATEGORY,
+    TrainerFormKey.FIELD,
+    TrainerFormKey.RROFILEIMGS,
+    TrainerFormKey.COST,
+  ];
+
+  const checkAllErrors2 = keysToCheckStep2.some(key => errors[key]);
+  const checkAllDirty2 = keysToCheckStep2.every(key => !!dirtyFields[key]);
 
   type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -47,11 +48,6 @@ const Step2 = () => {
 
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
-  };
-
-  const formatNumber = (value: string) => {
-    const numberValue = value.replace(/\D/g, ""); // 숫자만 남기기
-    return new Intl.NumberFormat().format(Number(numberValue)); // 천 단위로 쉼표 추가
   };
 
   return (
@@ -156,7 +152,7 @@ const Step2 = () => {
                 {...field}
                 placeholder="숫자만 입력 가능"
                 id="nickname-input"
-                value={formatNumber(field.value)}
+                value={formatNumberWithComma(field.value)}
                 onChange={e => field.onChange(e.target.value)}
                 status={fieldState.error && "error"}
               />
@@ -170,8 +166,10 @@ const Step2 = () => {
             type="primary"
             style={{ paddingTop: "auto", width: "100%" }}
             size="large"
-            onClick={() => {
-              if (!checkDirtyStep2 || checkErrorsStep2) return;
+            onClick={async () => {
+              if (!checkAllErrors2 && checkAllDirty2) return;
+
+              await trigger(keysToCheckStep2);
             }}
           >
             회원가입 완료

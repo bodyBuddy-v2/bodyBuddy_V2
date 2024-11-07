@@ -1,11 +1,12 @@
 import { PropsWithChildren } from "react";
 import { Flex, Space, Typography } from "antd";
+
 type TrainerSingUpLayoutProps = {
   currentStep: number;
 } & PropsWithChildren;
 
 const TrainerSignUpLayout = ({ children, currentStep }: TrainerSingUpLayoutProps) => {
-  const comments: string[] = ["간단한 기본 정보를 입력해주세요 :)", "상세 정보를 입력해주세요 :)"];
+  const comments = ["간단한 기본 정보를 입력해주세요 :)", "상세 정보를 입력해주세요 :)"];
 
   return (
     <Space direction="vertical">

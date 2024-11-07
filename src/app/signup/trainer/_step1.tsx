@@ -18,19 +18,16 @@ const Step1 = ({ next }: StepProps) => {
 
   const [districtOptions, setDistrictOptions] = useState<string[]>([]);
 
-  const checkErrorsStep1 =
-    !!errors[TrainerFormKey.NAME] ||
-    !!errors[TrainerFormKey.CELLPHONE] ||
-    !!errors[TrainerFormKey.SEX] ||
-    !!errors[TrainerFormKey.PROFILE] ||
-    !!errors[TrainerFormKey.CITY] ||
-    !!errors[TrainerFormKey.DISTRICT];
+  const keysToCheckStep1 = [
+    TrainerFormKey.NAME,
+    TrainerFormKey.CELLPHONE,
+    TrainerFormKey.CITY,
+    TrainerFormKey.DISTRICT,
+  ];
 
-  const checkDirtyStep1 =
-    !!dirtyFields[TrainerFormKey.NAME] &&
-    !!dirtyFields[TrainerFormKey.CELLPHONE] &&
-    !!dirtyFields[TrainerFormKey.CITY] &&
-    !!dirtyFields[TrainerFormKey.DISTRICT];
+  const checkAllErrors1 = keysToCheckStep1.some(key => errors[key]);
+
+  const checkAllDirty1 = keysToCheckStep1.every(key => !!dirtyFields[key]);
 
   return (
     <>
@@ -94,7 +91,6 @@ const Step1 = ({ next }: StepProps) => {
           </Form.Item>
         )}
       />
-
       <Flex gap={"small"}>
         <Controller
           name={TrainerFormKey.CITY}
@@ -180,16 +176,11 @@ const Step1 = ({ next }: StepProps) => {
           type="primary"
           size="large"
           onClick={async () => {
-            if (checkDirtyStep1 && !checkErrorsStep1) {
+            if (!checkAllErrors1 && checkAllDirty1) {
               next();
               return;
             }
-            await trigger([
-              TrainerFormKey.NAME,
-              TrainerFormKey.CELLPHONE,
-              TrainerFormKey.CITY,
-              TrainerFormKey.DISTRICT,
-            ]);
+            await trigger(keysToCheckStep1);
           }}
           htmlType="submit"
         >

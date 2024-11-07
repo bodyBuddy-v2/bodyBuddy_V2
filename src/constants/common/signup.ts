@@ -189,25 +189,3 @@ export const district: districtType = {
   ],
   충청북도: ["영동군", "옥천군", "음성군", "제천시", "증평군", "진천군", "청주시", "충주시"],
 };
-
-export const formatNumber = (num: string) => {
-  return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
-export const parseNumber = (str: string) => {
-  return str.replace(/,/g, "");
-};
-
-export const triggerDirtyFields = async <T extends string>(
-  dirtyFields: Partial<Record<T, boolean>>,
-  trigger: (field: T, select: object) => Promise<boolean>,
-  fields: T[],
-) => {
-  for (const field of fields) {
-    if (!dirtyFields[field]) {
-      console.log("field", field);
-
-      await trigger(field, { shouldFocus: false });
-    }
-  }
-};
