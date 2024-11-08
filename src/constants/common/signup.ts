@@ -1,36 +1,42 @@
-export type OptionValue = {
+export type OptionValue<T> = {
   label: string;
-  value: string;
+  value: T;
 };
-
+export type districtType = {
+  [index: string]: string[];
+};
 export type SexType = "female" | "male";
 
-export const exerciseList: OptionValue[] = [
-  { label: "PT", value: "PT" },
-  { label: "필라테스", value: "필라테스" },
-  { label: "수영", value: "수영" },
-  { label: "댄스", value: "댄스" },
-  { label: "테니스", value: "테니스" },
-  { label: "골프", value: "골프" },
+export enum GoalsList {
+  physicalStrength = "physicalStrength",
+  diet = "diet",
+  muscle = "muscle",
+  bodyAlignment = "bodyAlignment",
+}
+
+export enum CategoryList {
+  pt = "pt",
+  yogaAndPilates = "yogaAndPilates",
+  swimming = "swimming",
+  dance = "dance",
+  golf = "golf",
+  tennis = "tennis",
+}
+
+export const exerciseList: OptionValue<CategoryList>[] = [
+  { label: "PT", value: CategoryList.pt },
+  { label: "요가필라테스", value: CategoryList.yogaAndPilates },
+  { label: "수영", value: CategoryList.swimming },
+  { label: "댄스", value: CategoryList.dance },
+  { label: "테니스", value: CategoryList.tennis },
+  { label: "골프", value: CategoryList.golf },
 ];
-export const fieldList: OptionValue[] = [
-  { label: "기초 체력 증진", value: "기초 체력 증진" },
-  { label: "체충 감량", value: "체중 감량" },
-  { label: "근력 향상", value: "근력 향상" },
-  { label: "체형 교정", value: "체형 교정" },
+export const fieldList: OptionValue<GoalsList>[] = [
+  { label: "기초 체력 증진", value: GoalsList.physicalStrength },
+  { label: "체충 감량", value: GoalsList.diet },
+  { label: "근력 향상", value: GoalsList.muscle },
+  { label: "체형 교정", value: GoalsList.bodyAlignment },
 ];
-
-export const currentYear = new Date().getFullYear();
-export const years = Array.from(new Array(currentYear - 1899), (val, index) => currentYear - index);
-export const months = Array.from(Array(12), (val, index) => 1 + index);
-
-export const formatNumber = (num: string) => {
-  return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
-export const parseNumber = (str: string) => {
-  return str.replace(/,/g, "");
-};
 
 export const city: string[] = [
   "강원도",
@@ -52,9 +58,6 @@ export const city: string[] = [
   "충청북도",
 ];
 
-export type districtType = {
-  [index: string]: string[];
-};
 export const district: districtType = {
   강원도: ["강릉시", "동해시", "삼척시", "속초시", "원주시", "춘천시", "태백시", "홍천군", "횡성군"],
   경기도: [

@@ -15,6 +15,8 @@ export const TrainerFormKey = {
   SEX: "sex",
   PROFILE: "profile",
   CATEGORY: "category",
+  CITY: "city",
+  DISTRICT: "district",
   FIELD: "field",
   RROFILEIMGS: "profileImgs",
   COST: "cost",
