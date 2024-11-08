@@ -175,12 +175,12 @@ const Step1 = ({ next }: StepProps) => {
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
-          onClick={async () => {
+          onClick={() => {
             if (!checkAllErrors1 && checkAllDirty1) {
               next();
               return;
             }
-            await trigger(keysToCheckStep1);
+            void trigger(keysToCheckStep1);
           }}
           htmlType="submit"
         >

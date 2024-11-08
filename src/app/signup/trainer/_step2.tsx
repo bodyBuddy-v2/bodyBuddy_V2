@@ -166,10 +166,10 @@ const Step2 = () => {
             type="primary"
             style={{ paddingTop: "auto", width: "100%" }}
             size="large"
-            onClick={async () => {
+            onClick={() => {
               if (!checkAllErrors2 && checkAllDirty2) return;
 
-              await trigger(keysToCheckStep2);
+              void trigger(keysToCheckStep2);
             }}
           >
             회원가입 완료
