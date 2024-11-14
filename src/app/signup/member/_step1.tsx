@@ -12,9 +12,10 @@ const Step1 = ({ next }: StepProps) => {
     trigger,
   } = useFormContext<IMemberFormData>();
 
-  const checkErrorsStep1 = !!errors[UserFormKey.NICKNAME] || !!errors[UserFormKey.CELLPHONE];
-  const checkDirtyStep1 = !!dirtyFields[UserFormKey.NICKNAME] && !!dirtyFields[UserFormKey.CELLPHONE];
-  const fieldsToTrigger = [UserFormKey.NICKNAME, UserFormKey.CELLPHONE];
+  const keysToCheckStep1 = [UserFormKey.NICKNAME, UserFormKey.CELLPHONE];
+
+  const checkAllErrors1 = keysToCheckStep1.some(key => errors[key]);
+  const checkAllDirty1 = keysToCheckStep1.every(key => !!dirtyFields[key]);
 
   return (
     <>
@@ -54,17 +55,12 @@ const Step1 = ({ next }: StepProps) => {
           style={{ width: "100%" }}
           type="primary"
           size="large"
-          onClick={async () => {
-            if (checkDirtyStep1 && !checkErrorsStep1) {
+          onClick={() => {
+            if (!checkAllErrors1 && checkAllDirty1) {
               next();
               return;
             }
-
-            await triggerDirtyFields(
-              dirtyFields as Partial<Record<(typeof fieldsToTrigger)[number], boolean>>,
-              trigger,
-              fieldsToTrigger,
-            );
+            void trigger(keysToCheckStep1);
           }}
         >
           다음

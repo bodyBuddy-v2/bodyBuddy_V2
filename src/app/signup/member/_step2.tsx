@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Flex, Form, Input, Radio, Select, Typography } from "antd";
+import { Button, Flex, Form, Input, Radio, Select, Typography } from "antd";
 
 import { UserFormKey } from "@constants/common/formKey";
+import { city, district } from "@constants/common/signup";
 
 import { IMemberFormData, StepProps } from "./page";
 
@@ -18,10 +19,11 @@ const Step2 = ({ next }: StepProps) => {
 
   const [districtOptions, setDistrictOptions] = useState<string[]>([]);
 
-  const checkErrorsStep2 = !!errors[UserFormKey.AGE] || !!errors[UserFormKey.CITY] || !!errors[UserFormKey.DISTRICT];
-  const checkDirtyStep2 =
-    (!!dirtyFields[UserFormKey.AGE] && !!dirtyFields[UserFormKey.CITY]) || !!dirtyFields[UserFormKey.DISTRICT];
-  const fieldsToTrigger = [UserFormKey.AGE, UserFormKey.CITY, UserFormKey.DISTRICT];
+  const keysToCheckStep2 = [UserFormKey.AGE, UserFormKey.CITY, UserFormKey.DISTRICT];
+
+  const checkAllErrors2 = keysToCheckStep2.some(key => errors[key]);
+
+  const checkAllDirty2 = keysToCheckStep2.every(key => !!dirtyFields[key]);
 
   return (
     <>
@@ -115,17 +117,12 @@ const Step2 = ({ next }: StepProps) => {
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
-          onClick={async () => {
-            if (checkDirtyStep2 && !checkErrorsStep2) {
+          onClick={() => {
+            if (!checkAllErrors2 && checkAllDirty2) {
               next();
               return;
             }
-
-            await triggerDirtyFields(
-              dirtyFields as Partial<Record<(typeof fieldsToTrigger)[number], boolean>>,
-              trigger,
-              fieldsToTrigger,
-            );
+            void trigger(keysToCheckStep2);
           }}
         >
           다음

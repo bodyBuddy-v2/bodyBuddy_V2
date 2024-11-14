@@ -1,5 +1,6 @@
+"use client";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -30,18 +31,6 @@ export interface StepProps {
   next: () => void;
   prev?: () => void;
 }
-
-const triggerDirtyFields = async (
-  dirtyFields: Partial<Record<UserFormKeyType, boolean>>,
-  trigger: (field: UserFormKeyType) => Promise<boolean>,
-  fields: UserFormKeyType[],
-) => {
-  for (const field of fields) {
-    if (!dirtyFields[field]) {
-      await trigger(field);
-    }
-  }
-};
 
 const SignMemberPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -91,11 +80,7 @@ const SignMemberPage = () => {
 
   return (
     <MemberSignUpLayout currentStep={currentStep}>
-      {renderStep()}
-      {/* <FormProvider {...formMethods}>
-        <Form style={{ width: "100%" }} onFinish={formMethods.handleSubmit(handleSignUpClick)}>
-        </Form>
-      </FormProvider> */}
+      <FormProvider {...formMethods}>{renderStep()}</FormProvider>
     </MemberSignUpLayout>
   );
 };

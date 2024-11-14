@@ -1,10 +1,22 @@
+import { Controller, useFormContext } from "react-hook-form";
+import { Button, Checkbox, Col, Form, Row, Space, Typography } from "antd";
+
+import { UserFormKey } from "@constants/common/formKey";
+import { exerciseList, fieldList } from "@constants/common/signup";
+
+import { IMemberFormData, StepProps } from "./page";
+
 const Step3 = ({ prev }: StepProps) => {
   const {
     control,
-    formState: { errors },
+    formState: { errors, dirtyFields },
+    trigger,
   } = useFormContext<IMemberFormData>();
 
-  const checkErrorsStep3 = !!errors[UserFormKey.GOALS] || !!errors[UserFormKey.CATEGORY];
+  const keysToCheckStep3 = [UserFormKey.GOALS, UserFormKey.CATEGORY];
+
+  const checkAllErrors3 = keysToCheckStep3.some(key => errors[key]);
+  const checkAllDirty3 = keysToCheckStep3.every(key => !!dirtyFields[key]);
 
   return (
     <>
@@ -66,11 +78,14 @@ const Step3 = ({ prev }: StepProps) => {
       </Space>
       <Form.Item>
         <Button
-          disabled={checkErrorsStep3}
           style={{ paddingTop: "auto", width: "100%" }}
           type="primary"
           size="large"
-          htmlType="submit"
+          onClick={() => {
+            if (!checkAllErrors3 && checkAllDirty3) return;
+
+            void trigger(keysToCheckStep3);
+          }}
         >
           회원 가입 완료
         </Button>

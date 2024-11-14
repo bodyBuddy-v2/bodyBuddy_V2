@@ -1,8 +1,7 @@
 import { array, object, string } from "yup";
 
 import { UserFormKey } from "@constants/common/formKey";
-
-import type { city, SexType } from "@constants/common/signup";
+import { city, SexType } from "@constants/common/signup";
 
 export const signUpFormSchema = () => {
   return object().shape({
@@ -22,11 +21,11 @@ export const signUpFormSchema = () => {
     [UserFormKey.CITY]: string().required("지역을 선택해 주세요.").oneOf(city, "유효한 지역을 선택해주세요."),
 
     [UserFormKey.DISTRICT]: string()
-      .required()
-      .test("required district info", "지역을 선택해 주세요.", (value, ctx) => {
+      .required("시/군을 선택해주세요")
+      .test("district-validation", "지역을 선택해 주세요.", (value, ctx) => {
         const { city } = ctx.parent;
-        if (!city) return true; // city가 없으면 district 체크 안 함
-        return value && value.trim() !== "";
+        if (!city) return true;
+        return !!value;
       }),
     [UserFormKey.GOALS]: array()
       .required()
