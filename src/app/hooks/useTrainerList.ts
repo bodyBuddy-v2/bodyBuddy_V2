@@ -1,15 +1,19 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import serviceAPI from "@app/api/service/serviceAPI";
 
 import { QUERY_KEY } from "@constants/common/queryKey";
 
-type GetMemberListType = {
+// n 초 마다 update 해주는 usePolling
+type GetTrainerListType = {
   options?: UseQueryOptions<any, any, [], any>;
   usePolling?: boolean;
 };
 
-const useGetMemberList = ({ options, usePolling = false }: GetMemberListType) => {
+const useGetTrainerList = ({ options, usePolling = false }: GetTrainerListType) => {
+  const { getTrainerList } = serviceAPI();
+
   const fetcher = async () => {
-    // return await ;
+    return await getTrainerList();
   };
 
   return useQuery({
@@ -19,4 +23,4 @@ const useGetMemberList = ({ options, usePolling = false }: GetMemberListType) =>
   });
 };
 
-export default useGetMemberList;
+export default useGetTrainerList;
