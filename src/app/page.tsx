@@ -1,6 +1,12 @@
+"use client";
+
 import React from "react";
 
+import useGetTrainerList from "./hooks/useTrainerList";
+
 const Home = () => {
-  return <div></div>;
+  const { data } = useGetTrainerList({});
+
+  return <div>zz</div>;
 };
 export default Home;
