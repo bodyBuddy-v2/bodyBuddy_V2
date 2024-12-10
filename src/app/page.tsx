@@ -2,10 +2,8 @@
 
 import React from "react";
 
-import useGetTrainerList from "./hooks/useTrainerList";
-
 const Home = () => {
-  const { data } = useGetTrainerList({});
+  // const { data } = useGetTrainerList({});
 
   return <div>zz</div>;
 };
