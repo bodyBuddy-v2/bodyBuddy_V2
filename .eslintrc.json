@@ -20,7 +20,7 @@
       {
         "groups": [
           ["^next", "^react", "^redux", "axios", "^\\w"],
-          ["@tanstack", "@reduxjs", "@emotion", "@mui", "^@\\w", "@kep"],
+          ["@tanstack", "@reduxjs", "@emotion", "@mui", "^@\\w"],
           ["@components", "@schemas", "@constants"],
           ["^[./]"],
           ["^.+\\.styled$"],
