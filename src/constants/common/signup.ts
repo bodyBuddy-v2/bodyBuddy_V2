@@ -5,7 +5,7 @@ export type OptionValue<T> = {
 export type districtType = {
   [index: string]: string[];
 };
-export type SexType = "female" | "male";
+export type SexType = "female" | "male" | "none";
 
 export enum GoalsList {
   physicalStrength = "physicalStrength",

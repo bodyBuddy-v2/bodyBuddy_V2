@@ -13,12 +13,12 @@ import { city, district } from "@constants/common/signup";
 import type { ModalProps } from "antd";
 
 type OptionModalProps = {
-  onChangeValue: () => void;
+  onConfirm: () => void;
 } & ModalProps;
 export interface IOptionModalFormData {
-  [OptionModalFormKey.CITY]?: string;
-  [OptionModalFormKey.DISTRICT]?: string;
-  [OptionModalFormKey.SEX]?: SexType;
+  [OptionModalFormKey.CITY]: string;
+  [OptionModalFormKey.DISTRICT]: string;
+  [OptionModalFormKey.SEX]: SexType;
   [OptionModalFormKey.GOALS]?: string[];
   [OptionModalFormKey.CATEGORY]?: string[];
 }
@@ -29,19 +29,18 @@ export const OptionsDetailModal = (props: OptionModalProps) => {
 
   const {
     control,
-    formState: { errors, dirtyFields },
-    trigger,
+    formState: { errors },
     handleSubmit,
   } = useForm<IOptionModalFormData>({
     resolver: yupResolver(schema),
   });
 
-  const { open, onCancel, onChangeValue } = props;
+  const { open, onCancel, onConfirm } = props;
 
   const [districtOptions, setDistrictOptions] = useState<string[]>([]);
 
   const onClickOkBtn = () => {
-    onChangeValue();
+    onConfirm();
   };
   return (
     <>
@@ -118,7 +117,11 @@ export const OptionsDetailModal = (props: OptionModalProps) => {
             name={OptionModalFormKey.SEX}
             control={control}
             render={({ field }) => (
-              <Form.Item>
+              <Form.Item
+                style={{ width: "100%" }}
+                validateStatus={errors[OptionModalFormKey.SEX] ? "error" : ""}
+                help={errors[OptionModalFormKey.SEX] ? errors[OptionModalFormKey.SEX]?.message : ""}
+              >
                 <Typography> 원하는 트레이너의 성별 </Typography>
                 <Radio.Group
                   style={{
@@ -129,7 +132,7 @@ export const OptionsDetailModal = (props: OptionModalProps) => {
                 >
                   <Radio value="male">남성</Radio>
                   <Radio value="female">여성</Radio>
-                  <Radio value="any">성별 무관</Radio>
+                  <Radio value="none">성별 무관</Radio>
                 </Radio.Group>
               </Form.Item>
             )}
