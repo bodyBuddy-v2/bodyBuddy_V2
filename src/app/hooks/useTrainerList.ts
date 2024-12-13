@@ -13,7 +13,7 @@ const useGetTrainerList = ({ options, usePolling = false }: GetTrainerListType) 
   const { getTrainerList } = serviceAPI();
 
   const fetcher = async () => {
-    const res = await getTrainerList();
+    const res = await getTrainerList({});
 
     return res;
   };
