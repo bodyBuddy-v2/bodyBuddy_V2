@@ -1,2 +1,3 @@
 import { HomeMenu } from "./HomeMenu/HomeMenu";
-export { HomeMenu };
+import { OptionsDetailModal } from "./OptionsDetailModal/OptionsDetailModal";
+export { HomeMenu, OptionsDetailModal };
