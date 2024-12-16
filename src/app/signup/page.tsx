@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { Space, Typography, Button } from "antd";
+import { signIn } from "next-auth/react";
+import React from "react";
+import { Button, Space, Typography } from "antd";
 
 const SignUp = () => {
   const handleSubmit = (name: string) => {

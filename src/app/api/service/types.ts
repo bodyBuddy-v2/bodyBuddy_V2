@@ -40,17 +40,23 @@ export type GetUserDetailOptionRequest = {
 export type GetUserDetailInfoRequest = GetUserDetailOptionRequest;
 
 export type GetTrainerListRequest = {
-  sex?: PreferGender;
-  category?: Category[];
-  field?: Field[];
+  sex: PreferGender;
+  category: Category[];
+  field: Field[];
 } & Address;
 
 // 트레이너 리스트 filtering = 상세 옵션 설정 modal 과 type 동일
 export type PostUserDetailOptionRequest = GetTrainerListRequest;
 
+export type CommonResponseType = {
+  status: number;
+  statusText: string;
+};
+
 export type GetTrainerListResponse = {
   data: Trainer[];
 };
+
 export type GetUserDetailOptionResponse = {
   prefer_gender: PreferGender;
   category: Category[];

@@ -19,19 +19,25 @@ const serviceAPI = () => {
       city,
       district,
       sex = "none",
-      category,
-      field,
+      category = [],
+      field = [],
     }: GetTrainerListRequest): Promise<GetTrainerListResponse> => {
-      const res = await supabase.from("trainer").select("*");
-      // TODO: @minji type수정
+      const res = await supabase
+        .from("trainer")
+        .select()
+        .eq("city", city)
+        .eq("district", district)
+        .eq("sex", sex)
+        .in("category", category)
+        .in("field", field);
+
       return {
         data: [],
       };
     },
-    getUserInfo: async ({}) => {},
     // GET: user의 상세 option 설정
     getUserDetailOption: async ({ id }: GetUserDetailOptionRequest): Promise<GetUserDetailOptionResponse> => {
-      const res = await supabase.from("user").select("*");
+      const res = await supabase.from("user").select("").eq("id", id);
 
       return {
         city: "",
@@ -49,7 +55,13 @@ const serviceAPI = () => {
       category,
       field,
     }: PostUserDetailOptionRequest): Promise<any> => {
-      const res = await supabase.from("user").select("*");
+      const res = await supabase.from("user").update({
+        city,
+        district,
+        sex,
+        category,
+        field,
+      });
 
       return null;
     },
