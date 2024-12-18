@@ -41,8 +41,8 @@ export type GetUserDetailInfoRequest = GetUserDetailOptionRequest;
 
 export type GetTrainerListRequest = {
   sex: PreferGender;
-  category: Category[];
-  field: Field[];
+  category?: Category[];
+  field?: Field[];
 } & Address;
 
 // 트레이너 리스트 filtering = 상세 옵션 설정 modal 과 type 동일

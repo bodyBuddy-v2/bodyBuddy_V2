@@ -31,9 +31,10 @@ const serviceAPI = () => {
         .eq("city", city)
         .eq("district", district)
         .eq("sex", sex)
-        .in("category", category)
-        .in("field", field);
+        .contains("category", category)
+        .contains("field", field);
 
+      // return res;
       return {
         data: [],
       };
