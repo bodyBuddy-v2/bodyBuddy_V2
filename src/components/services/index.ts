@@ -1,3 +1,3 @@
-import { QualificationList } from "./QualificationList/QualificationList";
-import UploadImage from "./UploadImage/UploadImage";
-export { UploadImage, QualificationList };
+import { HomeMenu } from "./HomeMenu/HomeMenu";
+import { OptionsDetailModal } from "./OptionsDetailModal/OptionsDetailModal";
+export { HomeMenu, OptionsDetailModal };

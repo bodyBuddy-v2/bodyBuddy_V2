@@ -21,3 +21,11 @@ export const TrainerFormKey = {
   RROFILEIMGS: "profileImgs",
   COST: "cost",
 } as const;
+
+export const OptionModalFormKey = {
+  CITY: "city",
+  DISTRICT: "district",
+  SEX: "sex",
+  GOALS: "goals",
+  CATEGORY: "category",
+} as const;

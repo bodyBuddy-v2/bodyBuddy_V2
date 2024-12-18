@@ -1,12 +1,16 @@
 "use client";
+import React, { useState } from "react";
 
-import React from "react";
-
-import useGetTrainerList from "./hooks/useTrainerList";
+import { OptionsDetailModal } from "@components/services";
 
 const Home = () => {
-  const { data } = useGetTrainerList({});
+  const [open, setOpen] = useState(false);
 
-  return <div>zz</div>;
+  return (
+    <div>
+      <button onClick={() => setOpen(true)}> 모달 테스트</button>
+      <OptionsDetailModal open={open} onCancel={() => setOpen(false)} onConfirm={() => setOpen(false)} />
+    </div>
+  );
 };
 export default Home;
