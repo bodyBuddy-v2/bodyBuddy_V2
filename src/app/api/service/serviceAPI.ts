@@ -11,7 +11,10 @@ import {
 } from "./types";
 
 const serviceAPI = () => {
-  const supabase = createClient("", "");
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
   return {
     // GET: trainer 리스트
@@ -24,7 +27,7 @@ const serviceAPI = () => {
     }: GetTrainerListRequest): Promise<GetTrainerListResponse> => {
       const res = await supabase
         .from("trainer")
-        .select()
+        .select("*")
         .eq("city", city)
         .eq("district", district)
         .eq("sex", sex)
