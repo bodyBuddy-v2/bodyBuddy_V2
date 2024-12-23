@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
 import { signIn } from "next-auth/react";
-import { Box } from "@mui/material";
-import { Button, Typography } from "antd";
+import React from "react";
+import { Button, Flex, Typography } from "antd";
 
 const SignIn = () => {
   const handleSubmit = (name: string) => {
@@ -18,15 +17,48 @@ const SignIn = () => {
 
   return (
     <>
-      <Box display="flex" alignItems="center" flexDirection="column" mt={"auto"} pb={7}>
-        <Typography>SNS로 간편하게 로그인 하세요 !</Typography>
-        <Button size="large" onClick={() => handleSubmit("kakao")}>
+      <Flex vertical justify="center" align="center" style={{ flex: 1, padding: "52px" }}>
+        <Typography.Title level={1}>
+          <span>쉬운 1:1</span>
+          <br></br>
+          <span style={{ color: "#1677FF" }}>트레이닝</span> 의 시작
+        </Typography.Title>
+      </Flex>
+      <Flex vertical style={{ width: "100%", padding: "58px" }}>
+        <Typography style={{ color: "#7D7D7D", fontSize: "12px", textAlign: "center" }}>
+          SNS로 간편하게 로그인 하세요!
+        </Typography>
+        <Button
+          type="primary"
+          size="large"
+          name="Kakao"
+          style={{
+            height: "50px",
+            width: "100%",
+            borderRadius: "12px",
+            backgroundColor: "#FEE500",
+            marginTop: "14px",
+          }}
+          onClick={() => handleSubmit("kakao")}
+        >
           카카오로 시작하기
         </Button>
-        <Button size="large" onClick={() => handleSubmit("naver")}>
+        <Button
+          name="naver"
+          type="primary"
+          size="large"
+          style={{
+            height: "50px",
+            width: "100%",
+            borderRadius: "12px",
+            backgroundColor: "#4FA42B",
+            marginTop: "10px",
+          }}
+          onClick={() => handleSubmit("naver")}
+        >
           네이버로 시작하기
         </Button>
-      </Box>
+      </Flex>
     </>
   );
 };
