@@ -1,0 +1,39 @@
+name: type and lint check
+
+on:
+  pull_request:
+    branches: [main, stage] # Pull Request가 올라올 때 실행되도록 설정합니다.
+  push:
+    branches: [main, stage] # 머지된 후에도 문제 없는지 , 직접 main, stage 브렌치에 push 해도 문제 없는지
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm i # 필요한 종속성을 설치합니다.
+
+      - name: Run ESLint
+        run: pnpm run lint # ESLint를 실행하여 코드를 lint 합니다.
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Post lint check result
+        if: ${{ failure() }}
+        run: exit 1
