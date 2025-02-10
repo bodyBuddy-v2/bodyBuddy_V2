@@ -1,8 +1,64 @@
-type districtType = {
+export type OptionValue<T> = {
+  label: string;
+  value: T;
+};
+export type districtType = {
   [index: string]: string[];
 };
+export type SexType = "female" | "male" | "none";
 
-const district: districtType = {
+export enum GoalsList {
+  physicalStrength = "physicalStrength",
+  diet = "diet",
+  muscle = "muscle",
+  bodyAlignment = "bodyAlignment",
+}
+
+export enum CategoryList {
+  pt = "pt",
+  yogaAndPilates = "yogaAndPilates",
+  swimming = "swimming",
+  dance = "dance",
+  golf = "golf",
+  tennis = "tennis",
+}
+
+export const exerciseList: OptionValue<CategoryList>[] = [
+  { label: "PT", value: CategoryList.pt },
+  { label: "요가필라테스", value: CategoryList.yogaAndPilates },
+  { label: "수영", value: CategoryList.swimming },
+  { label: "댄스", value: CategoryList.dance },
+  { label: "테니스", value: CategoryList.tennis },
+  { label: "골프", value: CategoryList.golf },
+];
+export const fieldList: OptionValue<GoalsList>[] = [
+  { label: "기초 체력 증진", value: GoalsList.physicalStrength },
+  { label: "체충 감량", value: GoalsList.diet },
+  { label: "근력 향상", value: GoalsList.muscle },
+  { label: "체형 교정", value: GoalsList.bodyAlignment },
+];
+
+export const city: string[] = [
+  "강원도",
+  "경기도",
+  "경상남도",
+  "경상북도",
+  "광주광역시",
+  "대구광역시",
+  "대전광역시",
+  "부산광역시",
+  "서울특별시",
+  "세종특별자치시",
+  "울산광역시",
+  "인천광역시",
+  "전라남도",
+  "전라북도",
+  "제주특별자치도",
+  "충청남도",
+  "충청북도",
+];
+
+export const district: districtType = {
   강원도: ["강릉시", "동해시", "삼척시", "속초시", "원주시", "춘천시", "태백시", "홍천군", "횡성군"],
   경기도: [
     "고양시",
@@ -133,5 +189,3 @@ const district: districtType = {
   ],
   충청북도: ["영동군", "옥천군", "음성군", "제천시", "증평군", "진천군", "청주시", "충주시"],
 };
-
-export default district;

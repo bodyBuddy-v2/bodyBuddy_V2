@@ -15,7 +15,17 @@ export const TrainerFormKey = {
   SEX: "sex",
   PROFILE: "profile",
   CATEGORY: "category",
+  CITY: "city",
+  DISTRICT: "district",
   FIELD: "field",
   RROFILEIMGS: "profileImgs",
   COST: "cost",
+} as const;
+
+export const OptionModalFormKey = {
+  CITY: "city",
+  DISTRICT: "district",
+  SEX: "sex",
+  GOALS: "goals",
+  CATEGORY: "category",
 } as const;
