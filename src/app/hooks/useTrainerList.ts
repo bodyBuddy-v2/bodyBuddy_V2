@@ -13,7 +13,13 @@ const useGetTrainerList = ({ options, usePolling = false }: GetTrainerListType) 
   const { getTrainerList } = serviceAPI();
 
   const fetcher = async () => {
-    const res = await getTrainerList();
+    const res = await getTrainerList({
+      city: "수원시",
+      district: "팔달구",
+      sex: "male",
+      category: ["muscle"],
+      field: ["pt"],
+    });
 
     return res;
   };
