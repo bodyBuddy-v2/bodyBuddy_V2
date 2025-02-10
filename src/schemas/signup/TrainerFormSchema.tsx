@@ -35,7 +35,7 @@ export const TrainerFormSchema = () => {
       .test("required district info", "지역을 선택해 주세요.", (value, ctx) => {
         const { city } = ctx.parent;
         if (!city) return true; // city가 없으면 district 체크 안 함
-        return value && value.trim() !== "";
+        return !!(value && value.trim()); // ""이 반환되지 않도록 boolean 값만 반환
       }),
   });
 };
