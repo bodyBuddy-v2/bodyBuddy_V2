@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import React from "react";
-import { Button, Space, Typography } from "antd";
+import { Button, Flex, Typography } from "antd";
 
 const SignUp = () => {
   const handleSubmit = (name: string) => {
@@ -18,14 +18,14 @@ const SignUp = () => {
   };
   return (
     <>
-      <Space style={{ display: "flex", justifyContent: "center", flex: 1, padding: "52px" }}>
+      <Flex vertical justify="center" align="center" style={{ flex: 1, padding: "52px" }}>
         <Typography.Title level={1}>
           <span>쉬운 1:1</span>
           <br></br>
           <span style={{ color: "#1677FF" }}>트레이닝</span> 의 시작
         </Typography.Title>
-      </Space>
-      <Space direction="vertical" style={{ width: "100%", padding: "58px" }}>
+      </Flex>
+      <Flex vertical style={{ width: "100%", padding: "58px" }}>
         <Typography style={{ color: "#7D7D7D", fontSize: "12px", textAlign: "center" }}>
           혹시 강사님이신가요?
           <Typography.Text underline style={{ color: "#7D7D7D", fontSize: "12px" }}>
@@ -64,7 +64,7 @@ const SignUp = () => {
         >
           네이버로 시작하기
         </Button>
-      </Space>
+      </Flex>
     </>
   );
 };
